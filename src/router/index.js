@@ -1,43 +1,45 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/components/login'
-import Card from '@/components/Card'
-import GiftList from '@/components/GiftList'
-import Gift from '@/components/Gift'
-import Address from '@/components/Address'
+
+const login = resolve => require(['@/pages/login'], resolve);
+const card = resolve => require(['@/pages/Card'], resolve);
+const gift = resolve => require(['@/pages/Gift'], resolve);
+const giftlist = resolve => require(['@/pages/GiftList'], resolve);
+const address = resolve => require(['@/pages/Address'], resolve);
+
 
 Vue.use(Router)
 
 export default new Router({
     routes: [{
             path: '/',
-            name: 'login',
-            component: Login
+            name: '',
+            component: login
         },
         {
             path: '/login',
             name: 'login',
-            component: Login
+            component: login
         },
         {
             path: '/card',
             name: 'card',
-            component: Card
+            component: card
         },
         {
             path: '/giftlist',
             name: 'giftlist',
-            component: GiftList
+            component: giftlist
         },
         {
             path: '/gift',
             name: 'gift',
-            component: Gift
+            component: gift
         },
         {
             path: '/address',
             name: 'address',
-            component: Address
+            component: address
         }
     ]
 })

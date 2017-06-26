@@ -3,6 +3,12 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import { Button, Field, InfiniteScroll, Header } from 'mint-ui';
+
+Vue.component(Header.name, Header);
+Vue.component(Field.name, Field);
+Vue.component(Button.name, Button);
+Vue.use(InfiniteScroll);
 
 Vue.config.productionTip = false
 

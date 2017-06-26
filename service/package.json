@@ -1,0 +1,14 @@
+{
+  "name": "member-service",
+  "version": "1.0.0",
+  "description": "member api",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "zian",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.3"
+  }
+}

@@ -1,11 +1,8 @@
 <template>
   <div class="card">
-   <img class="cardimg" src="../assets/card.png">
-   <mt-button type="default" size="large" v-on:click="goToList()" >积分对换缤纷好礼</mt-button>
-    <ul
-      v-infinite-scroll="loadMore"
-      infinite-scroll-disabled="loading"
-      infinite-scroll-distance="10">
+    <img class="cardimg" src="../assets/card.png">
+    <mt-button type="default" size="large" v-on:click="goToList()">积分对换缤纷好礼</mt-button>
+    <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
       <li class="li-integral" v-for="item in list">{{ item }}</li>
     </ul>
   </div>
@@ -14,18 +11,11 @@
 
 
 <script type="text/babel">
-  import Vue from 'vue';
-  import router from 'vue-router';
-  import { InfiniteScroll } from 'mint-ui';
-  import { Button } from 'mint-ui';
-
-  Vue.component(Button.name, Button);
-  Vue.use(InfiniteScroll);
   export default {
     data() {
-      return{
-        loading:false,
-        list:[1,2,3,4,5,7,8,9,10]
+      return {
+        loading: false,
+        list: [1, 2, 3, 4, 5, 7, 8, 9, 10]
       }
     },
     methods: {
@@ -40,24 +30,25 @@
           this.loading = false;
         }, 2500);
       },
-      goToList () {
-        new router().push({path: '/giftlist'});
+      goToList() {
+        this.$router.push({ path: '/giftlist' });
       }
     }
-    
+
   };
 </script>
 <style>
-.li-integral {
+  .li-integral {
     min-height: 20px;
     max-height: 20px;
     padding: 12px 6px;
     border-bottom: 1px solid #dbdbdb;
     position: relative;
-}
-.cardimg{
-  height:215px;
-  padding: 12px 6px;
-}
+  }
+
+  .cardimg {
+    height: 215px;
+    padding: 12px 6px;
+  }
 </style>
 
