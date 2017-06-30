@@ -2,7 +2,9 @@
 var sqlMap = {
     // 用户
     user: {
-        add: 'insert into goods(id, name, price) values (0, ?, ?)'
+        post: 'insert into goods(id, name, price) values (0, ?, ?)',
+        getall: 'select * from user_info',
+        getByUserPass: 'select * from user_info where phone = ? and password = ?'
     }
 }
 module.exports = sqlMap;

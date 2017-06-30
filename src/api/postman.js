@@ -6,14 +6,13 @@ let config = {};
 if (process.env.NODE_ENV === 'development') {
     config = {
         baseURL: 'http://127.0.0.1:3000/api/v1',
-        // baseURL: 'http://127.0.0.1:8000/api/',
         timeout: 5000
     };
 } else {};
 
 const apiObj = axios.create(config);
 
-// http request(请求) 拦截器
+//http request(请求) 拦截器
 // apiObj.interceptors.request.use(
 //     config => {
 //         if (store.state.token) { // 判断是否存在token，如果存在的话，则每个http header都加上token
@@ -26,8 +25,14 @@ const apiObj = axios.create(config);
 //     }
 // );
 
-const test = () => apiObj.get('/user/adduser');
+const test = () => apiObj.get('/users/user');
+
+const getToken = (username, password) => apiObj.post('/users/auth', {
+    'username': username,
+    'password': password
+});
 
 export {
-    test
+    test,
+    getToken
 }
