@@ -10,7 +10,7 @@
     <a class="line">向下滑动获得更多积分记录:</a>
     <hr align=center class="line">
     <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-      <li class="li-integral" v-for="item in list">{{ item }}</li>
+      <li class="li-integral" v-for="item in list">{{item.create_date}}购买{{ item.record}}获得{{ item.cost }}积分</li>
     </ul>
   </div>
 </template>
@@ -20,36 +20,47 @@
 <script type="text/babel">
 
   import { Toast } from 'mint-ui';
-  import { getUser } from '@/api/postman';
+  import { getUser, getIntegral } from '@/api/postman';
 
   export default {
     data() {
       return {
         userName: '',
-        totalIntegral: '',
+        totalIntegral: 0,
         loading: false,
-        list: [1, 2, 3, 4, 5, 7, 8, 9, 10]
+        list: []
       }
     },
     created() {
+
       getUser().then(res => {
         this.userName = res.data.data.phone;
       }).catch(err => {
         console.log(err);
         Toast('用户信息获取失败');
       });
+
+      getIntegral().then(res => {
+        var il = JSON.parse(res.data.data);
+        il.forEach(function (element) {
+          this.totalIntegral += element.cost;
+        }, this);
+        this.list = JSON.parse(res.data.data);
+      }).catch(err => {
+        console.log(err);
+      });
     },
     methods: {
       loadMore() {
-        console.log('aaa');
-        this.loading = true;
-        setTimeout(() => {
-          let last = this.list[this.list.length - 1];
-          for (let i = 1; i <= 10; i++) {
-            this.list.push(last + i);
-          }
-          this.loading = false;
-        }, 2500);
+        // console.log('aaa');
+        // this.loading = true;
+        // setTimeout(() => {
+        //   let last = this.list[this.list.length - 1];
+        //   for (let i = 1; i <= 10; i++) {
+        //     this.list.push(last + i);
+        //   }
+        //   this.loading = false;
+        // }, 2500);
       },
       goToList() {
         this.$router.push({ path: '/giftlist' });

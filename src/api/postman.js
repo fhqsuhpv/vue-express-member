@@ -33,11 +33,14 @@ const getToken = (username, password) => apiObj.post('/users/auth', {
     'username': username,
     'password': password
 });
-
+//获取用户信息
 const getUser = () => apiObj.get('/users/user');
+
+const getIntegral = () => apiObj.get('/integral/list');
 
 export {
     test,
     getToken,
-    getUser
+    getUser,
+    getIntegral
 }

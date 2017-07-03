@@ -1,20 +1,15 @@
 var coc = require('../controller/coc');
 var $codes = require('../controller/customcode');
-var auth = require('../controller/auth');
+var auth = require('../controller/user');
 var jsonWrite = require('./jsonwrite');
 
 var express = require('express'),
-    jwt = require('jsonwebtoken'),
-    promise = require('bluebird'),
     cors = require('cors');
 
 var router = express.Router();
 
 // 该文件中的所有接口允许跨域访问
 router.all('*', cors(coc));
-
-
-
 
 //【接口】获取token
 router.post('/auth', (req, res) => {
