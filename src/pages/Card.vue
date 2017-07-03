@@ -1,7 +1,14 @@
 <template>
   <div class="card">
     <img class="cardimg" src="../assets/card.png">
-    <mt-button type="default" size="large" v-on:click="goToList()">积分对换缤纷好礼</mt-button>
+    <span class="mint-cell-text">
+      用户名:{{ userName }} 总积分:{{ totalIntegral }}
+    </span>
+    <mt-button type="default" size="large" class="mt-button" v-on:click="goToList()">积分对换缤纷好礼</mt-button>
+    <mt-button type="default" size="large" class="mt-button" v-on:click="goToList()">我兑换到的礼品</mt-button>
+    <mt-button type="danger" size="large" class="mt-button" v-on:click="quitUser()">安全退出用户</mt-button>
+    <a class="line">向下滑动获得更多积分记录:</a>
+    <hr align=center class="line">
     <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
       <li class="li-integral" v-for="item in list">{{ item }}</li>
     </ul>
@@ -11,12 +18,26 @@
 
 
 <script type="text/babel">
+
+  import { Toast } from 'mint-ui';
+  import { getUser } from '@/api/postman';
+
   export default {
     data() {
       return {
+        userName: '',
+        totalIntegral: '',
         loading: false,
         list: [1, 2, 3, 4, 5, 7, 8, 9, 10]
       }
+    },
+    created() {
+      getUser().then(res => {
+        this.userName = res.data.data.phone;
+      }).catch(err => {
+        console.log(err);
+        Toast('用户信息获取失败');
+      });
     },
     methods: {
       loadMore() {
@@ -32,6 +53,10 @@
       },
       goToList() {
         this.$router.push({ path: '/giftlist' });
+      },
+      quitUser() {
+        window.localStorage.removeItem('token');
+        this.$router.push({ path: '/login' });
       }
     }
 
@@ -43,12 +68,21 @@
     max-height: 20px;
     padding: 12px 6px;
     border-bottom: 1px solid #dbdbdb;
-    position: relative;
   }
 
   .cardimg {
     height: 215px;
     padding: 12px 6px;
+  }
+
+  .mt-button {
+    margin: 0px 0px 10px 0px;
+  }
+
+  .line {
+    width: 300;
+    color: black;
+    SIZE: 1;
   }
 </style>
 

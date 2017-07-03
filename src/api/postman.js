@@ -13,26 +13,31 @@ if (process.env.NODE_ENV === 'development') {
 const apiObj = axios.create(config);
 
 //http request(请求) 拦截器
-// apiObj.interceptors.request.use(
-//     config => {
-//         if (store.state.token) { // 判断是否存在token，如果存在的话，则每个http header都加上token
-//             config.headers.Authorization = `Bearer ${store.state.token}`;
-//         }
-//         return config;
-//     },
-//     err => {
-//         return Promise.reject(err);
-//     }
-// );
+apiObj.interceptors.request.use(
+    config => {
+        var token = window.localStorage.getItem('token');
+        if (token) { // 判断是否存在token，如果存在的话，则每个http header都加上token
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    err => {
+        return Promise.reject(err);
+    }
+);
 
 const test = () => apiObj.get('/users/user');
 
+//登录获取token
 const getToken = (username, password) => apiObj.post('/users/auth', {
     'username': username,
     'password': password
 });
 
+const getUser = () => apiObj.get('/users/user');
+
 export {
     test,
-    getToken
+    getToken,
+    getUser
 }
