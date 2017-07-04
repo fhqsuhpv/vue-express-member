@@ -14,16 +14,33 @@ router.all('*', cors(coc));
 
 
 router.get('/list', (req, res) => {
-    var userdata = auth.getIdentity(req);
-    gift.getall().then(data => {
-        console.log(data);
-
+    //    var userdata = auth.getIdentity(req);
+    gift.getAll().then(data => {
         return jsonWrite(res, {
             code: $codes.VERIFYSUCCE,
             data: JSON.stringify(data)
         })
     });
+});
 
+router.get('/:id', (req, res) => {
+    var giftDetailId = req.param('id');
+    gift.getGift(giftDetailId).then(data => {
+        return jsonWrite(res, {
+            code: $codes.VERIFYSUCCE,
+            data: JSON.stringify(data[0])
+        });
+    });
+});
+
+router.get('/detail/:id', (req, res) => {
+    var giftDetailId = req.param('id');
+    gift.getGiftDetail(giftDetailId).then(data => {
+        return jsonWrite(res, {
+            code: $codes.VERIFYSUCCE,
+            data: JSON.stringify(data)
+        });
+    });
 });
 
 module.exports = router;

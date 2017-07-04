@@ -10,13 +10,29 @@ promise.promisifyAll(require("mysql/lib/Pool").prototype);
 var conn = mysql.createConnection(models.mysql);
 conn.connect();
 
-var getall = userId => {
-    return conn.queryAsync($sql.gift.getall).then(data => {
+var getAll = () => {
+    return conn.queryAsync($sql.gift.getAll).then(data => {
         if (data == undefined) return {};
         return data;
     });
 };
 
+var getGift = giftId => {
+    return conn.queryAsync($sql.gift.getById, [giftId]).then(data => {
+        if (data == undefined) return '';
+        return data;
+    });
+}
+
+var getGiftDetail = giftId => {
+    return conn.queryAsync($sql.gift.getDetail, [giftId]).then(data => {
+        if (data == undefined) return '';
+        return data;
+    });
+};
+
 module.exports = {
-    getall
+    getAll,
+    getGift,
+    getGiftDetail
 };

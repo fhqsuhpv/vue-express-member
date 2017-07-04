@@ -37,6 +37,7 @@
         this.userName = res.data.data.phone;
       }).catch(err => {
         console.log(err);
+        this.$router.push({ path: '/login' });
         Toast('用户信息获取失败');
       });
 
@@ -47,6 +48,7 @@
         }, this);
         this.list = JSON.parse(res.data.data);
       }).catch(err => {
+        this.$router.push({ path: '/login' });
         console.log(err);
       });
 

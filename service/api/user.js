@@ -13,7 +13,6 @@ router.all('*', cors(coc));
 
 //【接口】获取token
 router.post('/auth', (req, res) => {
-    console.log($codes.VERIFYFAILS);
     auth.generateToken(req).then(newToken => jsonWrite(res, {
         code: newToken == '' ? $codes.VERIFYFAILS : $codes.VERIFYSUCCE,
         token: newToken

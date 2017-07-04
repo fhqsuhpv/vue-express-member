@@ -7,13 +7,13 @@
     </mt-header>
     <div class="gift-main">
       <div class="gift-cost">
-        <img class="page-lazyload-image" src="http://fuss10.elemecdn.com/b/df/b630636b444346e38cef6c59f6457jpeg.jpeg" />
-        <h3>换购{{ giftname }} 需花费积分:{{ cost }}</h3>
+        <img class="page-lazyload-image" :src="main_image" />
+        <h3>换购 {{ giftname }} 需花费积分:{{ cost }} 还有:{{current_count}}件</h3>
         <mt-button type="danger" size="large" v-on:click="goToAddress()">立即换购</mt-button>
       </div>
       <ul>
         <li class="page-lazyload-listitem" v-for="item in listImg">
-          <img class="page-lazyload-image" :src="item" />
+          <img class="page-lazyload-image" :src="item.image_path" />
         </li>
       </ul>
     </div>
@@ -21,28 +21,38 @@
 </template>
 
 <script type="text/babel">
-  import { getGift } from '@/api/postman';
+  import { getGift, getGiftDetail } from '@/api/postman';
   export default {
     data() {
       return {
+        main_image: '',
         loading: false,
         giftId: this.$route.query.gift_id,
-        listImg: ["http://fuss10.elemecdn.com/b/18/0678e57cb1b226c04888e7f244c20jpeg.jpeg",
-          "http://fuss10.elemecdn.com/3/1e/42634e29812e6594c98a89e922c60jpeg.jpeg",
-          "http://fuss10.elemecdn.com/1/c5/95c37272d3e554317dcec1e17a9f5jpeg.jpeg",
-          "http://fuss10.elemecdn.com/7/85/e478e4b26af74f4539c79f31fde80jpeg.jpeg",
-          "http://fuss10.elemecdn.com/b/df/b630636b444346e38cef6c59f6457jpeg.jpeg",
-          "http://fuss10.elemecdn.com/7/a5/596ab03934612236f807b92906fd8jpeg.jpeg"],
+        listImg: [],
         cost: 100,
-        giftname: "虎牌保温杯"
+        current_count: 0,
+        giftname: ''
       }
     },
     created() {
-      console.log(this.giftId);
+      getGift(this.giftId).then(res => {
+        var data = JSON.parse(res.data.data);
+        this.main_image = data.main_image;
+        this.cost = data.cost;
+        this.giftname = data.name;
+        this.current_count = data.current_count;
+      }).catch(err => {
+        this.$router.push({ path: '/giftlist' });
+      });
+      getGiftDetail(this.giftId).then(res => {
+        this.listImg = JSON.parse(res.data.data);
+      }).catch(err => {
+        this.$router.push({ path: '/giftlist' });
+      });
     },
     methods: {
       goToAddress() {
-        this.$router.push({ path: '/address' });
+        this.$router.push({ path: '/address', query: { gift_id: this.giftId } });
       }
     }
   };

@@ -24,7 +24,7 @@
 </template>
 
 <script type="text/babel">
-  import { getGift } from '@/api/postman';
+  import { getGiftList } from '@/api/postman';
   export default {
     data() {
       return {
@@ -33,7 +33,7 @@
       }
     },
     created() {
-      getGift().then(res => {
+      getGiftList().then(res => {
         console.log(res.data.data);
         this.list = JSON.parse(res.data.data);
       }).catch(err => {
