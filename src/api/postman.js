@@ -45,6 +45,9 @@ const getGiftList = () => apiObj.get('/gift/list');
 //获取礼品详情
 const getGiftDetail = id => apiObj.get('/gift/detail/' + id);
 
+//创建一个订单
+const createOrder = giftid => apiObj.post('/order', { 'giftid': giftid });
+
 export {
     test,
     getToken,
@@ -52,5 +55,6 @@ export {
     getIntegral,
     getGift,
     getGiftList,
-    getGiftDetail
+    getGiftDetail,
+    createOrder
 }

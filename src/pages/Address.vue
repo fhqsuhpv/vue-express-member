@@ -18,7 +18,7 @@
           <mt-field label="收件人姓名" placeholder="请输姓名" v-model="recipient"></mt-field>
           <mt-field label="收件人电话" placeholder="请输入手机号" v-model="recipient_phone"></mt-field>
           <mt-field label="收件详细地址" placeholder="按照**省**市**区**路**楼**层**门牌添写" type="textarea" rows="4" v-model="address"></mt-field>
-          <mt-button type="default" size="large">确认</mt-button>
+          <mt-button type="default" size="large" v-on:click="commintOrder()">确认</mt-button>
         </li>
       </ul>
     </div>
@@ -27,7 +27,7 @@
 </template>
 
 <script type="text/babel">
-  import { getGift, getUser } from '@/api/postman';
+  import { getGift, getUser, createOrder } from '@/api/postman';
   export default {
     data() {
       return {
@@ -66,7 +66,9 @@
 
     },
     methods: {
-
+      commintOrder() {
+        createOrder(this.giftId);
+      },
     }
   };
 </script>

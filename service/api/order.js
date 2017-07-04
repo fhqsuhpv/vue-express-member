@@ -15,7 +15,10 @@ router.all('*', cors(coc));
 router.post('', (req, res) => {
     var userdata = auth.getIdentity(req);
     order.createOrder(req, userdata).then(data => {
-
+        jsonWrite(res, {
+            code: $codes.VERIFYSUCCE,
+            data: data
+        })
     });
 });
 

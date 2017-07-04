@@ -10,22 +10,24 @@ promise.promisifyAll(require("mysql/lib/Pool").prototype);
 var conn = mysql.createConnection(models.mysql);
 conn.connect();
 
-var _getData = (res, userdata) => {
-    req.body.user_id;
-    req.body.gift_id;
-    req.body.recipient;
-    req.body.recipient_phone;
-    req.body.address;
-    return []
+var _getData = (req, userdata) => {
+    return [
+        userdata.id,
+        req.body.giftid,
+        userdata.recipient,
+        userdata.recipient_phone,
+        userdata.address
+    ]
 }
 
-var createOrder = (res, userdata) => {
+var createOrder = (req, userdata) => {
 
-    console.log(userdata.id);
-    // return conn.queryAsync($sql.order.createOrder, [userId]).then(data => {
-    //     if (data == undefined) return {};
-    //     return data;
-    // });
+    console.log(_getData(req, userdata));
+    return conn.queryAsync($sql.order.createOrder, _getData(req, userdata)).then(data => {
+        console.log(data);
+        if (data == undefined) return {};
+        return data;
+    });
 };
 
 module.exports = {
