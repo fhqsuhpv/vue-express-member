@@ -10,11 +10,13 @@ promise.promisifyAll(require("mysql/lib/Pool").prototype);
 var conn = mysql.createConnection(models.mysql);
 conn.connect();
 
-var getListById = userId => {
-    return conn.queryAsync($sql.integral.getByUserId, [userId]).then(data => {
+var getall = userId => {
+    return conn.queryAsync($sql.gift.getall).then(data => {
         if (data == undefined) return {};
         return data;
     });
 };
 
-module.exports = getListById;
+module.exports = {
+    getall
+};

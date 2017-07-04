@@ -8,14 +8,15 @@
     <div class="page-header-main">
       <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
         <div>
-          <router-link to="Gift">
-            <li class="li-giftlist" v-for="item in list">
+          <li class="li-giftlist" v-for="item in list">
+            <div v-on:click="gotodetial(item.id)">
               <div class="box-left">
-                <img class="p-pic" />
+                <img class="p-pic" :src="item.main_image" />
               </div>
-              <div class="box-right"> {{ item }}</div>
-            </li>
-          </router-link>
+              <div class="box-right"> {{ item.name }}</div>
+              <div class="box-right"> 需花费:{{ item.cost }}</div>
+            </div>
+          </li>
         </div>
       </ul>
     </div>
@@ -23,24 +24,36 @@
 </template>
 
 <script type="text/babel">
+  import { getGift } from '@/api/postman';
   export default {
     data() {
       return {
         loading: false,
-        list: [1, 2, 3, 4, 5, 7, 8, 9, 10]
+        list: []
       }
     },
+    created() {
+      getGift().then(res => {
+        console.log(res.data.data);
+        this.list = JSON.parse(res.data.data);
+      }).catch(err => {
+        console.log(err);
+      });
+    },
     methods: {
+      gotodetial(id) {
+        this.$router.push({ path: '/gift', query: { gift_id: id } });
+      },
       loadMore() {
-        console.log('aaa');
-        this.loading = true;
-        setTimeout(() => {
-          let last = this.list[this.list.length - 1];
-          for (let i = 1; i <= 10; i++) {
-            this.list.push(last + i);
-          }
-          this.loading = false;
-        }, 2500);
+        // console.log('aaa');
+        // this.loading = true;
+        // setTimeout(() => {
+        //   let last = this.list[this.list.length - 1];
+        //   for (let i = 1; i <= 10; i++) {
+        //     this.list.push(last + i);
+        //   }
+        //   this.loading = false;
+        // }, 2500);
       },
     }
   };
@@ -75,6 +88,7 @@
 
   .box-right {
     margin: 4px 15px 6px 0;
+    text-decoration: none;
     -webkit-box-flex: 1;
   }
 </style>

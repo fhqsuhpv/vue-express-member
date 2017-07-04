@@ -1,5 +1,5 @@
 var coc = require('../controller/coc');
-var getListById = require('../controller/integral');
+var gift = require('../controller/gift');
 var $codes = require('../controller/customcode');
 var auth = require('../controller/user');
 var jsonWrite = require('./jsonwrite');
@@ -15,7 +15,7 @@ router.all('*', cors(coc));
 
 router.get('/list', (req, res) => {
     var userdata = auth.getIdentity(req);
-    getListById(userdata.id).then(data => {
+    gift.getall().then(data => {
         console.log(data);
 
         return jsonWrite(res, {

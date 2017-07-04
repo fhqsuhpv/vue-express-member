@@ -49,6 +49,7 @@
       }).catch(err => {
         console.log(err);
       });
+
     },
     methods: {
       loadMore() {

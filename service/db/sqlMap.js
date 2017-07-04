@@ -2,12 +2,14 @@
 var sqlMap = {
     // 用户
     user: {
-        post: 'insert into goods(id, name, price) values (0, ?, ?)',
-        getall: 'select * from user_info',
         getByUserPass: 'select * from user_info where phone = ? and password = ?'
     },
     integral: {
-        getByUserId: 'select * from integral where user_id = ?'
+        getByUserId: 'select cost,record,create_date from integral where user_id = ?'
+    },
+    gift: {
+        getall: 'select id,name,main_image,cost,current_count from gift',
+        getdetail: 'select image_path,priority from gift_detail where gift_id = ?'
     }
 }
 module.exports = sqlMap;

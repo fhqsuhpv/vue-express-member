@@ -21,10 +21,12 @@
 </template>
 
 <script type="text/babel">
+  import { getGift } from '@/api/postman';
   export default {
     data() {
       return {
         loading: false,
+        giftId: this.$route.query.gift_id,
         listImg: ["http://fuss10.elemecdn.com/b/18/0678e57cb1b226c04888e7f244c20jpeg.jpeg",
           "http://fuss10.elemecdn.com/3/1e/42634e29812e6594c98a89e922c60jpeg.jpeg",
           "http://fuss10.elemecdn.com/1/c5/95c37272d3e554317dcec1e17a9f5jpeg.jpeg",
@@ -34,6 +36,9 @@
         cost: 100,
         giftname: "虎牌保温杯"
       }
+    },
+    created() {
+      console.log(this.giftId);
     },
     methods: {
       goToAddress() {

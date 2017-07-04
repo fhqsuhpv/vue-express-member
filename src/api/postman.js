@@ -38,9 +38,13 @@ const getUser = () => apiObj.get('/users/user');
 
 const getIntegral = () => apiObj.get('/integral/list');
 
+const getGift = () => apiObj.get('/gift/list');
+
+
 export {
     test,
     getToken,
     getUser,
-    getIntegral
+    getIntegral,
+    getGift
 }
