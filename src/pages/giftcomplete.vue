@@ -1,5 +1,5 @@
 <template>
-  <div class="giftlist">
+  <div class="gitfcomplete">
     <mt-header fixed title="标题过长会隐藏后面的内容啊哈哈哈哈">
       <router-link to="/card" slot="left">
         <mt-button icon="back">返回</mt-button>
@@ -9,23 +9,22 @@
       <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
         <div>
           <li class="li-giftlist" v-for="item in list">
-            <div v-on:click="gotodetial(item.id)">
-              <div class="box-left">
-                <img class="p-pic" :src="item.main_image" />
-              </div>
-              <div class="box-right"> {{ item.name }}</div>
-              <div class="box-right"> 需花费:{{ item.cost }}</div>
+            <div class="box-left">
+              <img class="p-pic" :src="item.main_image" />
             </div>
+            <div class="box-right"> 物品名称：{{ item.name }}</div>
+            <div class="box-right"> 需花费:{{ item.cost }}</div>
+            <div class="box-right"> 换购日期:{{ item.order_date }}</div>
+            <div class="box-right"> 快递单号:{{ item.express_no }}</div>
           </li>
         </div>
       </ul>
     </div>
   </div>
 </template>
-
-<script type="text/babel">
-
-  import { getGiftList } from '@/api/postman';
+<script>
+  import { Toast } from 'mint-ui';
+  import { getOrder } from '@/api/postman';
   export default {
     data() {
       return {
@@ -34,32 +33,22 @@
       }
     },
     created() {
-      getGiftList().then(res => {
-        this.list = JSON.parse(res.data.data);
-      }).catch(err => {
-        console.log(err);
+      getOrder().then(res => {
+        if (res.data.code == 200) {
+          this.list = res.data.data;
+        } else {
+          console.log(res);
+          Toast('系统疯了!不记得你换了什么!');
+        }
       });
     },
     methods: {
-      gotodetial(id) {
-        this.$router.push({ path: '/gift', query: { gift_id: id } });
-      },
-      loadMore() {
-        // console.log('aaa');
-        // this.loading = true;
-        // setTimeout(() => {
-        //   let last = this.list[this.list.length - 1];
-        //   for (let i = 1; i <= 10; i++) {
-        //     this.list.push(last + i);
-        //   }
-        //   this.loading = false;
-        // }, 2500);
-      },
+      loadMore() { }
     }
-  };
+  }
 </script>
 
-<style>
+<<style>
   .p-pic {
     width: 100px;
     height: 100px;

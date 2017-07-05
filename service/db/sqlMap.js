@@ -13,7 +13,8 @@ var sqlMap = {
         getDetail: 'select image_path,priority from gift_detail where gift_id = ? order by priority desc'
     },
     order: {
-        createOrder: 'insert into orders (user_id,gift_id,recipient,recipient_phone,address,order_date,state,is_del) values(?,?,?,?,?,now(),\'0\',0)'
+        createOrder: 'insert into orders (user_id,gift_id,recipient,recipient_phone,address,order_date,state,is_del) values(?,?,?,?,?,now(),\'0\',0)',
+        getByUserId: 'select orders.gift_id,orders.state,orders.order_date,orders.express_no,gift.main_image,gift.name,gift.cost from orders,gift where orders.gift_id = gift.id and orders.is_del = 0 and orders.user_id =? '
     }
 
 }

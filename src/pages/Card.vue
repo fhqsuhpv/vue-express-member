@@ -5,7 +5,7 @@
       用户名:{{ userName }} 总积分:{{ totalIntegral }}
     </span>
     <mt-button type="default" size="large" class="mt-button" v-on:click="goToList()">积分对换缤纷好礼</mt-button>
-    <mt-button type="default" size="large" class="mt-button" v-on:click="goToList()">我兑换到的礼品</mt-button>
+    <mt-button type="default" size="large" class="mt-button" v-on:click="goToMyGiftList()">我兑换到的礼品</mt-button>
     <mt-button type="danger" size="large" class="mt-button" v-on:click="quitUser()">安全退出用户</mt-button>
     <a class="line">向下滑动获得更多积分记录:</a>
     <hr align=center class="line">
@@ -67,6 +67,9 @@
       },
       goToList() {
         this.$router.push({ path: '/giftlist' });
+      },
+      goToMyGiftList() {
+        this.$router.push({ path: '/giftcomplete' });
       },
       quitUser() {
         window.localStorage.removeItem('token');

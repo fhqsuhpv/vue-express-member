@@ -22,4 +22,14 @@ router.post('', (req, res) => {
     });
 });
 
+router.get('', (req, res) => {
+    var userdata = auth.getIdentity(req);
+    order.getOrderByUserId(userdata.id).then(data => {
+        jsonWrite(res, {
+            code: $codes.VERIFYSUCCE,
+            data: data
+        })
+    });
+});
+
 module.exports = router;

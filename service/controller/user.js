@@ -27,7 +27,6 @@
       //return true;
       return conn.queryAsync(sql, [formData.username, formData.password])
           .then((res) => {
-              console.log('verifyIdentity.res:', res);
               if (res[0] == undefined)
                   return false;
               return res[0];

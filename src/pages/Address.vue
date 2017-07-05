@@ -27,6 +27,7 @@
 </template>
 
 <script type="text/babel">
+  import { Toast } from 'mint-ui';
   import { getGift, getUser, createOrder } from '@/api/postman';
   export default {
     data() {
@@ -49,8 +50,8 @@
         this.cost = data.cost;
         this.giftname = data.name;
       }).catch(err => {
-        // this.$router.push({ path: '/giftlist' });
-
+        this.$router.push({ path: '/giftlist' });
+        Toast('找不到礼品了!联系卖家试试!');
       });
 
       getUser().then(res => {
@@ -60,14 +61,23 @@
         this.address = data.address;
       }).catch(err => {
         console.log(err);
-        // this.$router.push({ path: '/login' });
-        // Toast('用户信息获取失败');
+        this.$router.push({ path: '/login' });
+        Toast('用户信息获取失败,请重新登录!');
       });
 
     },
     methods: {
       commintOrder() {
-        createOrder(this.giftId);
+        createOrder(this.giftId).then(res => {
+          if (res.data.code == 200) {
+            this.$router.push({ path: '/giftcomplete' });
+            Toast('换购成功,等待快弟上门吧!');
+          } else {
+            Toast('换购下单失败!');
+          }
+        }).catch(err => {
+          console.log(err);
+        });
       },
     }
   };

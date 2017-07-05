@@ -21,15 +21,20 @@ var _getData = (req, userdata) => {
 }
 
 var createOrder = (req, userdata) => {
-
-    console.log(_getData(req, userdata));
     return conn.queryAsync($sql.order.createOrder, _getData(req, userdata)).then(data => {
-        console.log(data);
         if (data == undefined) return {};
         return data;
     });
 };
 
+var getOrderByUserId = userid => {
+    return conn.queryAsync($sql.order.getByUserId, [userid]).then(data => {
+        if (!data) return '';
+        return data;
+    });
+};
+
 module.exports = {
-    createOrder
+    createOrder,
+    getOrderByUserId
 };
