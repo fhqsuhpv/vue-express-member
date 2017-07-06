@@ -34,9 +34,11 @@ const getToken = (username, password) => apiObj.post('/users/auth', {
     'password': password
 });
 //获取用户信息
-const getUser = () => apiObj.get('/users/user');
+const getUser = () => apiObj.get('/users');
 //获取用户积分情况
 const getIntegral = () => apiObj.get('/integral/list');
+//
+const getSufficient = giftid => apiObj.post('/users/sufficient', { 'giftid': giftid });
 
 //获取礼品
 const getGift = id => apiObj.get('/gift/' + id);
@@ -50,10 +52,13 @@ const createOrder = giftid => apiObj.post('/order', { 'giftid': giftid });
 //获取订单清单
 const getOrder = () => apiObj.get('/order');
 
+
+
 export {
     test,
     getToken,
     getUser,
+    getSufficient,
     getIntegral,
     getGift,
     getGiftList,

@@ -2,7 +2,7 @@
   <div class="card">
     <img class="cardimg" src="../assets/card.png">
     <span class="mint-cell-text">
-      用户名:{{ userName }} 总积分:{{ totalIntegral }}
+      用户名:{{ userName }} 总积分:{{ totalCost }}
     </span>
     <mt-button type="default" size="large" class="mt-button" v-on:click="goToList()">积分对换缤纷好礼</mt-button>
     <mt-button type="default" size="large" class="mt-button" v-on:click="goToMyGiftList()">我兑换到的礼品</mt-button>
@@ -26,7 +26,7 @@
     data() {
       return {
         userName: '',
-        totalIntegral: 0,
+        totalCost: 0,
         loading: false,
         list: []
       }
@@ -35,6 +35,7 @@
 
       getUser().then(res => {
         this.userName = res.data.data.phone;
+        this.totalCost = res.data.data.total_cost;
       }).catch(err => {
         console.log(err);
         this.$router.push({ path: '/login' });
@@ -43,9 +44,6 @@
 
       getIntegral().then(res => {
         var il = JSON.parse(res.data.data);
-        il.forEach(function (element) {
-          this.totalIntegral += element.cost;
-        }, this);
         this.list = JSON.parse(res.data.data);
       }).catch(err => {
         this.$router.push({ path: '/login' });

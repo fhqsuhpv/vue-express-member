@@ -21,7 +21,8 @@
 </template>
 
 <script type="text/babel">
-  import { getGift, getGiftDetail } from '@/api/postman';
+  import { Toast } from 'mint-ui';
+  import { getGift, getGiftDetail, getSufficient } from '@/api/postman';
   export default {
     data() {
       return {
@@ -52,7 +53,13 @@
     },
     methods: {
       goToAddress() {
-        this.$router.push({ path: '/address', query: { gift_id: this.giftId } });
+        console.log(this.giftId);
+        getSufficient(this.giftId).then(res => {
+          if (res.data.code == 200)
+            this.$router.push({ path: '/address', query: { gift_id: this.giftId } });
+          else
+            Toast('积分不足！快去购物吧！');
+        });
       }
     }
   };

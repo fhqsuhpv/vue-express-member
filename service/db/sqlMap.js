@@ -2,7 +2,9 @@
 var sqlMap = {
     // 用户
     user: {
-        getByUserPass: 'select * from user_info where phone = ? and password = ?'
+        getByUserPass: 'select * from user_info where phone = ? and password = ?',
+        getById: 'select * from user_info where id = ?',
+        setCost: 'update user_info set total_cost = ? where id = ?'
     },
     integral: {
         getByUserId: 'select cost,record,create_date from integral where user_id = ?'

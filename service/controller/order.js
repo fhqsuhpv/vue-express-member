@@ -1,5 +1,7 @@
 var models = require('../db/db');
 var $sql = require('../db/sqlMap');
+var user = require('./user');
+
 var promise = require('bluebird');
 var mysql = require('mysql');
 
@@ -20,10 +22,19 @@ var _getData = (req, userdata) => {
     ]
 }
 
+
+
 var createOrder = (req, userdata) => {
-    return conn.queryAsync($sql.order.createOrder, _getData(req, userdata)).then(data => {
-        if (data == undefined) return {};
-        return data;
+    return user.deductionCost(userdata.id, req).then(data => {
+        if (data) {
+            return conn.queryAsync($sql.order.createOrder, _getData(req, userdata)).then(data => {
+                console.log(data);
+                if (data == undefined) return false;
+                return true;
+            });
+        } else {
+            return false;
+        }
     });
 };
 

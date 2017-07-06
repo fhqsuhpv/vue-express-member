@@ -16,7 +16,7 @@ router.post('', (req, res) => {
     var userdata = auth.getIdentity(req);
     order.createOrder(req, userdata).then(data => {
         jsonWrite(res, {
-            code: $codes.VERIFYSUCCE,
+            code: data ? $codes.VERIFYSUCCE : $codes.LACKOFBALANCE,
             data: data
         })
     });

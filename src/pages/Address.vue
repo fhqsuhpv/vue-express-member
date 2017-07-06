@@ -71,16 +71,14 @@
         createOrder(this.giftId).then(res => {
           if (res.data.code == 200) {
             this.$router.push({ path: '/giftcomplete' });
-            Toast('换购成功,等待快弟上门吧!');
+            Toast('对换成功！等着快递小哥上门吧!');
           } else {
-            Toast('换购下单失败!');
+            Toast('对换失败，积分不足!');
           }
-        }).catch(err => {
-          console.log(err);
         });
-      },
+      }
     }
-  };
+  }
 </script>
 
 <style>
