@@ -72,6 +72,10 @@ var _verifyToken = req => {
 
 };
 
+var refreshToken = req => {
+    var payload = _verifyToken(req);
+};
+
 //验证身份
 var getIdentity = req => {
     var payload = _verifyToken(req);
@@ -83,6 +87,13 @@ var generateToken = req => {
     return _verifyIdentity(_getCredentials(req)).then((data) => {
         if (!data) return '';
         return _create(data);
+    });
+};
+
+var getUserById = id => {
+    return conn.queryAsync($sql.user.getById, [id]).then(data => {
+        if (data == undefined) return '';
+        return data[0];
     });
 };
 
@@ -120,5 +131,6 @@ module.exports = {
     getIdentity,
     generateToken,
     deductionCost,
-    contrastCost
+    contrastCost,
+    getUserById
 }

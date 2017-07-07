@@ -21,13 +21,13 @@ router.post('/auth', (req, res) => {
 
 //【接口】获取用户信息
 router.get('', (req, res) => {
-    var data = user.getIdentity(req);
-    jsonWrite(res, {
-        code: $codes.VERIFYSUCCE,
-        data: data,
-        token: ''
+    var userinfo = user.getIdentity(req);
+    user.getUserById(userinfo.id).then(data => {
+        jsonWrite(res, {
+            code: data == '' ? $codes.VERIFYFAILS : $codes.VERIFYSUCCE,
+            data: data
+        });
     });
-
 });
 
 router.post('/sufficient', (req, res) => {

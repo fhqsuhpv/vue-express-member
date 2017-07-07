@@ -34,6 +34,7 @@
     created() {
 
       getUser().then(res => {
+        console.log(res);
         this.userName = res.data.data.phone;
         this.totalCost = res.data.data.total_cost;
       }).catch(err => {
