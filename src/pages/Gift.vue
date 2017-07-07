@@ -1,6 +1,6 @@
 <template>
   <div class="gift">
-    <mt-header fixed title="标题过长会隐藏后面的内容啊哈哈哈哈">
+    <mt-header fixed title="礼品详情">
       <router-link to="/GiftList" slot="left">
         <mt-button icon="back">返回</mt-button>
       </router-link>
@@ -53,12 +53,14 @@
     },
     methods: {
       goToAddress() {
-        console.log(this.giftId);
         getSufficient(this.giftId).then(res => {
           if (res.data.code == 200)
             this.$router.push({ path: '/address', query: { gift_id: this.giftId } });
           else
             Toast('积分不足！快去购物吧！');
+        }).catch(err => {
+          console.log(err);
+          this.$router.push({ path: '/login' });
         });
       }
     }

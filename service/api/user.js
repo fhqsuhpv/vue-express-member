@@ -21,8 +21,7 @@ router.post('/auth', (req, res) => {
 
 //【接口】获取用户信息
 router.get('', (req, res) => {
-    var userinfo = user.getIdentity(req);
-    user.getUserById(userinfo.id).then(data => {
+    user.getUserById(req).then(data => {
         jsonWrite(res, {
             code: data == '' ? $codes.VERIFYFAILS : $codes.VERIFYSUCCE,
             data: data
@@ -31,8 +30,7 @@ router.get('', (req, res) => {
 });
 
 router.post('/sufficient', (req, res) => {
-    var userinfo = user.getIdentity(req);
-    user.contrastCost(userinfo.id, req).then(data => {
+    user.contrastCost(req).then(data => {
         jsonWrite(res, {
             code: data.state ? $codes.VERIFYSUCCE : $codes.LACKOFBALANCE
         });
@@ -41,15 +39,21 @@ router.post('/sufficient', (req, res) => {
 
 //根据所换购的礼品进行扣费
 router.put('/cost', (req, res) => {
-    var userinfo = user.getIdentity(req);
-    user.deductionCost(userinfo.id, req).then(state => {
+    var id = user.getIdentity(req).id;
+    user.deductionCost(id, req).then(state => {
         jsonWrite(res, {
             code: state ? $codes.VERIFYSUCCE : $codes.LACKOFBALANCE
         });
     });
 });
 
-//对比帐户中的积分是否可换购该礼品
-router
+router.put('/recipient', (req, res) => {
+    var id = user.getIdentity(req).id;
+    user.setRecipient(id, req).then(state => {
+        jsonWrite(res, {
+            code: state ? $codes.VERIFYSUCCE : $codes.VERIFYSUCCE
+        });
+    });
+})
 
 module.exports = router;

@@ -45,7 +45,7 @@ var _create = data => {
 //从请求参数中取得token字符串
 var _getReqToken = req => {
     var token = '';
-    //获取token
+    //获取token      authorization
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
         token = req.headers.authorization.split(' ')[1];
     } else if (req.query && req.query[opts.query_name]) {
@@ -54,7 +54,7 @@ var _getReqToken = req => {
 
     return token;
 };
-
+//验证Token
 var _verifyToken = req => {
     var token = _getReqToken(req);
     if (!token) return false;
@@ -72,10 +72,6 @@ var _verifyToken = req => {
 
 };
 
-var refreshToken = req => {
-    var payload = _verifyToken(req);
-};
-
 //验证身份
 var getIdentity = req => {
     var payload = _verifyToken(req);
@@ -90,15 +86,34 @@ var generateToken = req => {
     });
 };
 
-var getUserById = id => {
+//从req中构建参数
+var _getRecipient = (req, id) => {
+    return [
+        req.body.recipient,
+        req.body.phone,
+        req.body.address,
+        id
+    ];
+};
+//更新收件人地址
+var setRecipient = (id, req) => {
+    console.log(req);
+    return conn.queryAsync($sql.user.setRecipient, _getRecipient(req, id)).then(data => {
+        console.log(data);
+        return true;
+    });
+};
+
+var getUserById = req => {
+    var id = getIdentity(req).id;
     return conn.queryAsync($sql.user.getById, [id]).then(data => {
         if (data == undefined) return '';
         return data[0];
     });
 };
 
-
-var contrastCost = (id, req) => {
+var contrastCost = req => {
+    var id = getIdentity(req).id;
     var giftid = req.body.giftid;
     console.log(giftid);
     return conn.queryAsync($sql.user.getById, [id]).then(data => {
@@ -116,7 +131,7 @@ var contrastCost = (id, req) => {
 };
 
 var deductionCost = (id, req) => {
-    return contrastCost(id, req).then(data => {
+    return contrastCost(req).then(data => {
         if (data.state) {
             console.log(data.cost);
             return conn.queryAsync($sql.user.setCost, [data.cost, id]).then(data => {
@@ -132,5 +147,6 @@ module.exports = {
     generateToken,
     deductionCost,
     contrastCost,
-    getUserById
+    getUserById,
+    setRecipient
 }

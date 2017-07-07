@@ -1,6 +1,6 @@
 <template>
   <div class="giftlist">
-    <mt-header fixed title="标题过长会隐藏后面的内容啊哈哈哈哈">
+    <mt-header fixed title="可换购的礼品">
       <router-link to="/card" slot="left">
         <mt-button icon="back">返回</mt-button>
       </router-link>

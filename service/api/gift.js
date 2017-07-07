@@ -14,7 +14,6 @@ router.all('*', cors(coc));
 
 
 router.get('/list', (req, res) => {
-    //    var userdata = auth.getIdentity(req);
     gift.getAll().then(data => {
         return jsonWrite(res, {
             code: $codes.VERIFYSUCCE,

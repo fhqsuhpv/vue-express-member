@@ -4,7 +4,8 @@ var sqlMap = {
     user: {
         getByUserPass: 'select * from user_info where phone = ? and password = ?',
         getById: 'select * from user_info where id = ?',
-        setCost: 'update user_info set total_cost = ? where id = ?'
+        setCost: 'update user_info set total_cost = ?,update_date = now() where id = ?',
+        setRecipient: 'update user_info set recipient_phone = ?,recipient_phone=?,address=? ,update_date = now() where id = ?'
     },
     integral: {
         getByUserId: 'select cost,record,create_date from integral where user_id = ?'

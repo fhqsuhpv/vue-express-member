@@ -1,10 +1,12 @@
 <template>
   <div class="Address">
-    <mt-header fixed title="标题过长会隐藏后面的内容啊哈哈哈哈">
+    <mt-header fixed title="请确认发货地址">
       <router-link :to="{ path: '/gift', query: { gift_id: this.giftId } }" slot="left">
         <mt-button icon="back">返回</mt-button>
       </router-link>
     </mt-header>
+    <mt-actionsheet cancelText='再想想' :actions="actions" v-model="sheetVisible">
+    </mt-actionsheet>
     <div class="from-min">
       <ul>
         <li class="li-giftlist">
@@ -22,13 +24,12 @@
         </li>
       </ul>
     </div>
-
   </div>
 </template>
 
 <script type="text/babel">
   import { Toast } from 'mint-ui';
-  import { getGift, getUser, createOrder } from '@/api/postman';
+  import { getGift, getUser, createOrder, setRecipient } from '@/api/postman';
   export default {
     data() {
       return {
@@ -37,10 +38,11 @@
         main_image: '',
         cost: '',
         giftname: '',
-
         recipient: '',
         recipient_phone: '',
-        address: ''
+        address: '',
+        actions: [],
+        sheetVisible: false
       }
     },
     created() {
@@ -66,8 +68,20 @@
       });
 
     },
+    mounted() {
+      this.actions = [
+        {
+          name: '确认并下单',
+          method: this.createSheet
+        },
+        {
+          name: '确认下单并保存为常用地址',
+          method: this.createAndSaveSheet
+        }
+      ];
+    },
     methods: {
-      commintOrder() {
+      createSheet() {
         createOrder(this.giftId).then(res => {
           if (res.data.code == 200) {
             this.$router.push({ path: '/giftcomplete' });
@@ -76,8 +90,22 @@
             Toast('对换失败，积分不足!');
           }
         });
+      },
+      createAndSaveSheet() {
+        this.createSheet();
+        setRecipient(this.recipient, this.recipient_phone, this.address).then(res => {
+          if (res.data.code == 200) {
+            console.log('地址保存成功!');
+          } else {
+            console.log('地址保存失败!');
+          }
+        })
+      },
+      commintOrder() {
+        this.sheetVisible = !this.sheetVisible;
       }
-    }
+    },
+
   }
 </script>
 
