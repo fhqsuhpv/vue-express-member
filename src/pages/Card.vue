@@ -1,9 +1,12 @@
 <template>
   <div class="card">
-    <img class="cardimg" src="../assets/card.png">
-    <span class="mint-cell-text">
-      用户名:{{ userName }} 总积分:{{ totalCost }}
-    </span>
+    <!--<img class="cardimg" src="../assets/card.png">-->
+    <div class="CardImgBck">
+      <a class="membertext">FinelyCup 会员卡 </a>
+      </br>
+      <a class="bmtxt">用户名:{{ userName }}总积分:{{ totalCost }}</a>
+    </div>
+
     <mt-button type="default" size="large" class="mt-button" v-on:click="goToList()">积分对换缤纷好礼</mt-button>
     <mt-button type="default" size="large" class="mt-button" v-on:click="goToMyGiftList()">我兑换到的礼品</mt-button>
     <mt-button type="danger" size="large" class="mt-button" v-on:click="quitUser()">安全退出用户</mt-button>
@@ -85,9 +88,14 @@
     border-bottom: 1px solid #dbdbdb;
   }
 
-  .cardimg {
+  .CardImgBck {
+    background-image: url(../assets/card.png);
     height: 215px;
-    padding: 12px 6px;
+    margin: 0px 0px 10px 0px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    text-align: center;
   }
 
   .mt-button {
@@ -98,6 +106,20 @@
     width: 300;
     color: black;
     SIZE: 1;
+  }
+
+  .membertext {
+    color: white;
+    font-size: 30px;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 120px;
+  }
+
+  .bmtxt {
+    font-size: 15px;
+    color: white;
+    line-height: 0px;
   }
 </style>
 
