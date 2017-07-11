@@ -81,6 +81,11 @@
   };
 </script>
 <style>
+  .card {
+    width: 90%;
+    margin: 0 auto;
+  }
+
   .li-integral {
     min-height: 20px;
     max-height: 20px;
@@ -119,7 +124,6 @@
   .bmtxt {
     font-size: 15px;
     color: white;
-    line-height: 0px;
   }
 </style>
 

@@ -1,17 +1,23 @@
 <template>
   <div class="login">
+    <div class="CardImgBck">
+      <a class="membertext">FinelyCup 会员卡 </a>
+    </div>
     <mt-field label="用户名" placeholder="请输入手机号" v-model="username"></mt-field>
     <mt-field label="密码" placeholder="请输入密码" type="password" v-model="password"></mt-field>
-    <mt-switch @change="changeEvent" v-model="isSave">是否保存用户名密码</mt-switch>
-    <mt-button class="default" size="large" v-on:click.native="login()">
+    <mt-switch class="mt-button" @change="changeEvent" v-model="isSave">是否保存用户名密码</mt-switch>
+    <mt-button type="primary" class="mt-button" size="large" v-on:click.native="login()">
       <label class="mint-button-text">{{ t_login }}</label>
+    </mt-button>
+    <mt-button type="danger" class="mt-button" size="large" v-on:click.native="singUp()">
+      <label class="mint-button-text">注 册</label>
     </mt-button>
   </div>
 </template>
 
 <script>
 
-  import { Toast, MessageBox } from 'mint-ui';
+  import { Toast } from 'mint-ui';
   import { test, getToken } from '@/api/postman';
   export default {
     name: 'login',
@@ -56,13 +62,39 @@
           Toast('登录失败');
         });
       },
+      singUp() {
+        Toast('自助注册暂未开通，请联系客服!');
+      }
     }
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  mt-button {
-    padding: 6px;
+  .CardImgBck {
+    background-image: url(../assets/card.png);
+    height: 215px;
+    margin: 0px 0px 10px 0px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    text-align: center;
+  }
+
+  .membertext {
+    color: white;
+    font-size: 30px;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 200px;
+  }
+
+  .login {
+    margin: 0 auto;
+    width: 90%;
+  }
+
+  .mt-button {
+    margin: 0px 0px 10px 0px;
   }
 </style>
