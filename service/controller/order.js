@@ -12,6 +12,13 @@ promise.promisifyAll(require("mysql/lib/Pool").prototype);
 var conn = mysql.createConnection(models.mysql);
 conn.connect();
 
+/**
+ * 组装创建订单的数据
+ *
+ * @param {接求信息} req
+ * @param {格式化后的用户信息} userdata
+ * @returns
+ */
 var _getData = (req, userdata) => {
     return [
         userdata.id,
@@ -23,7 +30,13 @@ var _getData = (req, userdata) => {
 }
 
 
-
+/**
+ * 创建订单
+ *
+ * @param {接求信息} req
+ * @param {格式化后的用户信息} userdata
+ * @returns
+ */
 var createOrder = (req, userdata) => {
     return user.deductionCost(userdata.id, req).then(data => {
         if (data) {
@@ -38,6 +51,12 @@ var createOrder = (req, userdata) => {
     });
 };
 
+/**
+ * 通过用户id 获取订单信息
+ *
+ * @param {用户id} userid
+ * @returns
+ */
 var getOrderByUserId = userid => {
     return conn.queryAsync($sql.order.getByUserId, [userid]).then(data => {
         if (!data) return '';

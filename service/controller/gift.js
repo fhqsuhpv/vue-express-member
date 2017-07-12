@@ -17,6 +17,12 @@ var getAll = () => {
     });
 };
 
+/**
+ * 通过id 获取礼品信息
+ *
+ * @param {礼品id} giftId
+ * @returns
+ */
 var getGift = giftId => {
     return conn.queryAsync($sql.gift.getById, [giftId]).then(data => {
         if (data == undefined) return '';
@@ -24,6 +30,12 @@ var getGift = giftId => {
     });
 }
 
+/**
+ * 通过id 获取礼品详情图片组
+ *
+ * @param {礼品id} giftId
+ * @returns
+ */
 var getGiftDetail = giftId => {
     return conn.queryAsync($sql.gift.getDetail, [giftId]).then(data => {
         if (data == undefined) return '';

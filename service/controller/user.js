@@ -12,14 +12,24 @@ var conn = mysql.createConnection(models.mysql);
 conn.connect();
 
 var SCRKEY = 'memberkey';
-//从请求中取得用户名和密码
+/**
+ * 从请求中取得用户名和密码
+ *
+ * @param {接求信息} req
+ * @returns
+ */
 var _getCredentials = req => {
     return {
         username: req.body.username || req.query.username,
         password: req.body.password || req.query.password
     }
 };
-//通过数据库验证身份
+/**
+ * 通过数据库验证身份
+ *
+ * @param {被_getCredentials格式化好的数据信息} formData
+ * @returns
+ */
 var _verifyIdentity = formData => {
 
     var sql = $sql.user.getByUserPass;
@@ -32,7 +42,13 @@ var _verifyIdentity = formData => {
             return res[0];
         });
 };
-//创建 token字符串
+
+/**
+ * 创建 token字符串
+ *
+ * @param {用户信息} data
+ * @returns
+ */
 var _create = data => {
     var payload = {};
     payload['data'] = data;
@@ -42,7 +58,13 @@ var _create = data => {
 };
 
 
-//从请求参数中取得token字符串
+
+/**
+ * 从请求参数中取得token字符串
+ *
+ * @param {接求信息} req
+ * @returns
+ */
 var _getReqToken = req => {
     var token = '';
     //获取token      authorization
@@ -54,7 +76,13 @@ var _getReqToken = req => {
 
     return token;
 };
-//验证Token
+
+/**
+ * 验证Token
+ *
+ * @param {接求信息} req
+ * @returns
+ */
 var _verifyToken = req => {
     var token = _getReqToken(req);
     if (!token) return false;
@@ -72,13 +100,25 @@ var _verifyToken = req => {
 
 };
 
-//验证身份
+
+/**
+ * 验证身份
+ *
+ * @param {接求信息} req
+ * @returns
+ */
 var getIdentity = req => {
     var payload = _verifyToken(req);
     return payload && payload['data'];
 };
 
-//生成一个token
+
+/**
+ * 生成一个token
+ *
+ * @param {接求信息} req
+ * @returns
+ */
 var generateToken = req => {
     return _verifyIdentity(_getCredentials(req)).then((data) => {
         if (!data) return '';
@@ -86,7 +126,14 @@ var generateToken = req => {
     });
 };
 
-//从req中构建参数
+
+/**
+ * 从req中构建参数
+ *
+ * @param {接求信息} req
+ * @param {any} id
+ * @returns
+ */
 var _getRecipient = (req, id) => {
     return [
         req.body.recipient,
@@ -95,7 +142,14 @@ var _getRecipient = (req, id) => {
         id
     ];
 };
-//更新收件人地址
+
+/**
+ * 更新收件人地址
+ *
+ * @param {any} id
+ * @param {接求信息} req
+ * @returns
+ */
 var setRecipient = (id, req) => {
     console.log(req);
     return conn.queryAsync($sql.user.setRecipient, _getRecipient(req, id)).then(data => {
@@ -104,6 +158,12 @@ var setRecipient = (id, req) => {
     });
 };
 
+/**
+ * 获取用户信息通过用户id
+ *
+ * @param {接求信息} req
+ * @returns
+ */
 var getUserById = req => {
     var id = getIdentity(req).id;
     return conn.queryAsync($sql.user.getById, [id]).then(data => {
@@ -112,6 +172,12 @@ var getUserById = req => {
     });
 };
 
+/**
+ * 对比礼品积分和当前用户积分是否可以换取礼品
+ *
+ * @param {接求信息} req
+ * @returns
+ */
 var contrastCost = req => {
     var id = getIdentity(req).id;
     var giftid = req.body.giftid;
@@ -130,6 +196,13 @@ var contrastCost = req => {
     });
 };
 
+/**
+ * 当前用户扣减礼品所需积分数
+ *
+ * @param {any} id
+ * @param {接求信息} req
+ * @returns
+ */
 var deductionCost = (id, req) => {
     return contrastCost(req).then(data => {
         if (data.state) {
