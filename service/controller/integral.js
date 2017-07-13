@@ -13,7 +13,7 @@ conn.connect();
 /**
  * 通过用户id 获取积分记录
  *
- * @param {用户id} userId
+ * @param {用户id int} userId
  * @returns
  */
 var getListById = userId => {
@@ -23,4 +23,5 @@ var getListById = userId => {
     });
 };
 
-module.exports = getListById;
+
+module.exports = { getListById };

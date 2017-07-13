@@ -188,7 +188,6 @@ var contrastCost = req => {
     }).then(usercost => {
         return conn.queryAsync($sql.gift.getById, [giftid]).then((data) => {
             if (usercost > data[0].cost) {
-                return { state: true, cost: usercost - data[0].cost };
             } else {
                 return { state: false }
             }
@@ -199,17 +198,12 @@ var contrastCost = req => {
 /**
  * 当前用户扣减礼品所需积分数
  *
- * @param {any} id
  * @param {接求信息} req
  * @returns
  */
 var deductionCost = (id, req) => {
     return contrastCost(req).then(data => {
         if (data.state) {
-            console.log(data.cost);
-            return conn.queryAsync($sql.user.setCost, [data.cost, id]).then(data => {
-                console.log(data);
-                return true;
             });
         } else return false;
     });

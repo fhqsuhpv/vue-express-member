@@ -1,5 +1,5 @@
 var coc = require('../controller/coc');
-var getListById = require('../controller/integral');
+var integral = require('../controller/integral');
 var $codes = require('../controller/customcode');
 var auth = require('../controller/user');
 var jsonWrite = require('./jsonwrite');
@@ -15,7 +15,7 @@ router.all('*', cors(coc));
 
 router.get('/list', (req, res) => {
     var userdata = auth.getIdentity(req);
-    getListById(userdata.id).then(data => {
+    integral.getListById(userdata.id).then(data => {
         return jsonWrite(res, {
             code: $codes.VERIFYSUCCE,
             data: JSON.stringify(data)
@@ -23,5 +23,14 @@ router.get('/list', (req, res) => {
     });
 
 });
+
+// router.post('', (req, res) => {
+//     var userdata = auth.getIdentity(req);
+//     integral.createIntegral(userdata.id, req).then(data => {
+//         return jsonWrite(res, {
+//             code: data ? $codes.CREATESUCCE : $codes.CREATEFAILS,
+//         });
+//     });
+// });
 
 module.exports = router;

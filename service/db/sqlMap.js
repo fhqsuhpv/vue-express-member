@@ -8,8 +8,8 @@ var sqlMap = {
         setRecipient: 'update user_info set recipient_phone = ?,recipient_phone=?,address=? ,update_date = now() where id = ?'
     },
     integral: {
-        getByUserId: 'select cost,record,create_date from integral where user_id = ?',
-        createIntegral: ''
+        getByUserId: 'select cost,record,create_date from integral where user_id = ? order by id desc',
+        createIntegral: 'insert into integral(user_id,cost,record,create_date) values(?,?,?,now())'
     },
     gift: {
         getById: 'select id,name,main_image,cost,current_count from gift where id = ?',

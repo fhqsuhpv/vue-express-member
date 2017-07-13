@@ -48,7 +48,6 @@ const setRecipient = (recipient, phone, address) => apiObj.put('/users/recipient
 //获取用户积分情况
 const getIntegral = () => apiObj.get('/integral/list');
 
-
 //获取礼品
 const getGift = id => apiObj.get('/gift/' + id);
 //获取礼品清单
