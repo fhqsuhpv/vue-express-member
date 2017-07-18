@@ -111,8 +111,9 @@
 
 <style>
   .from-min {
+    margin: 0 auto;
     margin-top: 50px;
-    width: 375px;
+    width: 90%;
     height: 375px;
   }
 

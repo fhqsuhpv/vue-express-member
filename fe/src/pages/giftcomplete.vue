@@ -36,6 +36,9 @@
       getOrder().then(res => {
         if (res.data.code == 200) {
           this.list = res.data.data;
+          this.list.forEach(function (element) {
+            element.order_date = element.order_date.substring(0, 10);
+          }, this);
         } else {
           console.log(res);
           Toast('系统疯了!不记得你换了什么!');

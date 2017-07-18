@@ -30,18 +30,26 @@ var _getCredentials = req => {
  * @param {被_getCredentials格式化好的数据信息} formData
  * @returns
  */
-var _verifyIdentity = formData => {
+var _verifyIdentity = (formData, isManager) => {
 
     var sql = $sql.user.getByUserPass;
     console.log(formData.username, formData.password);
-    //return true;
-    return conn.queryAsync(sql, [formData.username, formData.password])
-        .then((res) => {
-            if (res[0] == undefined)
-                return false;
-            return res[0];
-        });
+    console.log(isManager);
+    if (!isManager) {
+        return conn.queryAsync(sql, [formData.username, formData.password])
+            .then(data => {
+                if (data[0] == undefined)
+                    return false;
+                return data[0];
+            });
+    }
+    return conn.queryAsync($sql.manager.getByUserPass, [formData.username, formData.password]).then(data => {
+        if (data[0] == undefined)
+            return false;
+        return data[0];
+    });
 };
+
 
 /**
  * 创建 token字符串
@@ -114,13 +122,13 @@ var getIdentity = req => {
 
 
 /**
- * 生成一个token
+ * 生成一个token 前端用户
  *
  * @param {接求信息} req
  * @returns
  */
-var generateToken = req => {
-    return _verifyIdentity(_getCredentials(req)).then((data) => {
+var generateToken = (req, isManager) => {
+    return _verifyIdentity(_getCredentials(req), isManager).then((data) => {
         if (!data) return '';
         return _create(data);
     });
@@ -151,7 +159,7 @@ var _getRecipient = (req, id) => {
  * @returns
  */
 var setRecipient = (id, req) => {
-    console.log(req);
+    //console.log(req);
     return conn.queryAsync($sql.user.setRecipient, _getRecipient(req, id)).then(data => {
         console.log(data);
         return true;
@@ -164,9 +172,14 @@ var setRecipient = (id, req) => {
  * @param {接求信息} req
  * @returns
  */
-var getUserById = req => {
+var getUserById = (req, isManager) => {
     var id = getIdentity(req).id;
-    return conn.queryAsync($sql.user.getById, [id]).then(data => {
+    if (!isManager)
+        return conn.queryAsync($sql.user.getById, [id]).then(data => {
+            if (data == undefined) return '';
+            return data[0];
+        });
+    return conn.queryAsync($sql.manager.getByID, [id]).then(data => {
         if (data == undefined) return '';
         return data[0];
     });
@@ -187,7 +200,13 @@ var contrastCost = req => {
         return data[0].total_cost;
     }).then(usercost => {
         return conn.queryAsync($sql.gift.getById, [giftid]).then((data) => {
-            if (usercost > data[0].cost) {
+            if (usercost >= data[0].cost) {
+                return {
+                    state: true,
+                    userCost: usercost,
+                    giftName: data[0].name,
+                    giftCost: data[0].cost
+                };
             } else {
                 return { state: false }
             }
@@ -198,12 +217,28 @@ var contrastCost = req => {
 /**
  * 当前用户扣减礼品所需积分数
  *
+ * @param {用户ID int} id
  * @param {接求信息} req
  * @returns
  */
 var deductionCost = (id, req) => {
     return contrastCost(req).then(data => {
         if (data.state) {
+            return conn.queryAsync($sql.user.setCost, [data.userCost - data.giftCost, id]).then((err, result) => {
+                // if (err) {
+                //     conn.rollback((err) => { throw err });
+                // }
+                return conn.queryAsync($sql.integral.createIntegral, [id, -data.giftCost, data.giftName]).then((err, data) => {
+                    //console.log(data); //进行解析
+                    // if (err) {
+                    //     conn.rollback((err) => { throw err });
+                    // }
+                    return true;
+                }).catch(err => {
+                    //记录日志
+                });
+            }).catch(err => {
+                //记录日志
             });
         } else return false;
     });

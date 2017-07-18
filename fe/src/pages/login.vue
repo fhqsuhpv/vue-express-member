@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="CardImgBck">
-      <a class="membertext">FinelyCup 会员卡 </a>
+      <a class="membertext">莉莉家会员卡 </a>
     </div>
     <mt-field label="用户名" placeholder="请输入手机号" v-model="username"></mt-field>
     <mt-field label="密码" placeholder="请输入密码" type="password" v-model="password"></mt-field>
@@ -92,6 +92,7 @@
   .login {
     margin: 0 auto;
     width: 90%;
+    margin-top: 10px;
   }
 
   .mt-button {

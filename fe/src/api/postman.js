@@ -26,8 +26,6 @@ apiObj.interceptors.request.use(
     }
 );
 
-const test = () => apiObj.get('/users/user');
-
 //登录获取token
 const getToken = (username, password) => apiObj.post('/users/auth', {
     'username': username,

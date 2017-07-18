@@ -2,7 +2,7 @@
   <div class="card">
     <!--<img class="cardimg" src="../assets/card.png">-->
     <div class="CardImgBck">
-      <a class="membertext">FinelyCup 会员卡 </a>
+      <a class="membertext">莉莉家会员卡 </a>
       </br>
       <a class="bmtxt">用户名:{{ userName }}总积分:{{ totalCost }}</a>
     </div>
@@ -48,6 +48,10 @@
       getIntegral().then(res => {
         var il = JSON.parse(res.data.data);
         this.list = JSON.parse(res.data.data);
+        this.list.forEach(function (element) {
+          element.create_date = (element.create_date).substring(0, 10);
+        }, this);
+
       }).catch(err => {
         this.$router.push({ path: '/login' });
         console.log(err);
@@ -84,6 +88,7 @@
   .card {
     width: 90%;
     margin: 0 auto;
+    margin-top: 10px;
   }
 
   .li-integral {
