@@ -173,13 +173,14 @@ var setRecipient = (id, req) => {
  * @returns
  */
 var getUserById = (req, isManager) => {
-    var id = getIdentity(req).id;
+    var userinfo = getIdentity(req);
+    if (userinfo == null) return '';
     if (!isManager)
-        return conn.queryAsync($sql.user.getById, [id]).then(data => {
+        return conn.queryAsync($sql.user.getById, [userinfo.id]).then(data => {
             if (data == undefined) return '';
             return data[0];
         });
-    return conn.queryAsync($sql.manager.getByID, [id]).then(data => {
+    return conn.queryAsync($sql.manager.getByID, [userinfo.id]).then(data => {
         if (data == undefined) return '';
         return data[0];
     });
@@ -244,11 +245,21 @@ var deductionCost = (id, req) => {
     });
 };
 
+
+var getUsers = (begin, count) => {
+    return conn.queryAsync($sql.user.getlimit, [begin, count]).then(data => {
+        return data;
+    }).catch(err => {
+        return [];
+    });
+};
+
 module.exports = {
     getIdentity,
     generateToken,
     deductionCost,
     contrastCost,
     getUserById,
-    setRecipient
+    setRecipient,
+    getUsers
 }

@@ -40,7 +40,10 @@ const getToken = (username, password) => {
 //获取用户信息
 const getUser = () => apiObj.get('/users/manager');
 
+const getUsers = (begin, count) => apiObj.get('/users/list');
+
 export {
     getToken,
-    getUser
+    getUser,
+    getUsers
 }

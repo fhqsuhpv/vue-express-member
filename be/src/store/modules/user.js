@@ -90,11 +90,18 @@ const user = {
         GetInfo({ commit, state }) {
             return new Promise((resolve, reject) => {
                 getUser().then(response => {
+                    console.log(response);
                     const data = response.data.data;
-                    commit('SET_ROLES', data.role);
-                    commit('SET_NAME', data.name);
-                    commit('SET_AVATAR', data.avatar);
-                    commit('SET_INTRODUCTION', '');
+                    if (response.data.code != 200) {
+                        commit('SET_TOKEN', '');
+                        commit('SET_ROLES', []);
+                        Cookies.remove('Admin-Token');
+                    } else {
+                        commit('SET_ROLES', data.role);
+                        commit('SET_NAME', data.name);
+                        commit('SET_AVATAR', data.avatar);
+                        commit('SET_INTRODUCTION', '');
+                    }
                     resolve(response);
                 }).catch(error => {
                     reject(error);

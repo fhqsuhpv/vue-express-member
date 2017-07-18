@@ -29,21 +29,28 @@ router.post('/admin/auth', (req, res) => {
 
 //【接口】获取用户信息
 router.get('', (req, res) => {
-    user.getUserById(req, false).then(data => {
-        jsonWrite(res, {
-            code: data == '' ? $codes.VERIFYFAILS : $codes.VERIFYSUCCE,
-            data: data
+    var userinfo = user.getUserById(req, false);
+    if (userinfo == '') {
+        jsonWrite(res, { code: $codes.CREATEFAILS });
+    } else
+        userinfo.then(data => {
+            jsonWrite(res, {
+                code: data == '' ? $codes.VERIFYFAILS : $codes.VERIFYSUCCE,
+                data: data
+            });
         });
-    });
 });
 //【接口】 获取管理员用户信息
 router.get('/manager', (req, res) => {
-    user.getUserById(req, true).then(data => {
-        jsonWrite(res, {
-            code: data == '' ? $codes.VERIFYFAILS : $codes.VERIFYSUCCE,
-            data: data
+    var userinfo = user.getUserById(req, true);
+    if (userinfo == '') jsonWrite(res, { code: $codes.CREATEFAILS });
+    else
+        userinfo.then(data => {
+            jsonWrite(res, {
+                code: data == '' ? $codes.VERIFYFAILS : $codes.VERIFYSUCCE,
+                data: data
+            });
         });
-    });
 });
 
 
@@ -72,6 +79,16 @@ router.put('/recipient', (req, res) => {
             code: state ? $codes.VERIFYSUCCE : $codes.VERIFYSUCCE
         });
     });
-})
+});
+
+router.get('/list', (req, res) => {
+    user.getUsers(0, 100).then(data => {
+        jsonWrite(res, {
+            code: $codes.VERIFYSUCCE,
+            data: data
+        })
+    });
+});
+
 
 module.exports = router;
