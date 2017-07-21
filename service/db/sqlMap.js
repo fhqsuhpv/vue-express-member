@@ -7,7 +7,7 @@ var sqlMap = {
         setCost: 'update user_info set total_cost = ?,update_date = now() where id = ?',
         setRecipient: 'update user_info set recipient_phone = ?,recipient_phone=?,address=? ,update_date = now() where id = ?',
 
-        getlimit: 'select phone,name,total_cost from user_info limit ?,?',
+        getlimit: 'select id,phone,name,total_cost,isdel,recipient,recipient_phone,address from user_info limit ?,?',
         getCount: 'select count(*) from user_info',
         setUserInfoById: 'update user_info set phone = ?,name = ?,password = ?, recipient = ? ,recipient_phone = ?,address = ? ,total_cost = ?,update_date = now() where id = ?'
     },

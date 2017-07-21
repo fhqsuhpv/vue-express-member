@@ -1,18 +1,61 @@
 <template>
-    <el-table :data="userData" border fit highlight-current-row style="width: 100%">
-        <el-table-column type="index" width="50"></el-table-column>
-        <el-table-column prop="phone" label="用户名" width="200"></el-table-column>
-        <el-table-column prop="name" label="用户姓名" width="200"></el-table-column>
-        <el-table-column prop="total_cost" label="积分" width="200"></el-table-column>
-        <el-table-column label="操作" width="200"></el-table-column>
-    </el-table>
+    <div>
+        <el-table :data="userData" class="userTable" border fit highlight-current-row>
+            <el-table-column type="index"></el-table-column>
+            <el-table-column label="用户名">
+                <template scope="scope">
+                    <span class="link-type" @click="editUser(scope.row)">{{scope.row.phone}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column prop="name" label="用户姓名"></el-table-column>
+            <el-table-column prop="total_cost" label="积分"></el-table-column>
+            <el-table-column label="状态">
+                <template scope="scope">
+                    <el-tag :type="scope.row.isdel == '0' ? 'success':'danger'">{{scope.row.isdel == 0 ? '正常':'禁用'}}</el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" width="200">
+                <template scope="scope">
+                    <el-button size="small" :type="scope.row.isdel == 0 ? 'danger':'success'" v-on:click="disSwitch(scope.row)">{{ scope.row.isdel == 0 ?'禁用帐号':'启用帐号'}}</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <el-dialog title="用户修改" :visible.sync="userVisible" size="small">
+            <el-form class="small-space" v-model="userTempData" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
+                <el-form-item label="手机号">
+                    <el-input v-model="userTempData.phone"></el-input>
+                </el-form-item>
+                <el-form-item label="姓名">
+                    <el-input v-model="userTempData.name"></el-input>
+                </el-form-item>
+                <el-form-item label="总积分">
+                    <el-input v-model="userTempData.total_cost"></el-input>
+                </el-form-item>
+                <el-form-item label="收件人姓名">
+                    <el-input v-model="userTempData.recipient"></el-input>
+                </el-form-item>
+                <el-form-item label="收件人电话">
+                    <el-input v-model="userTempData.recipient_phone"></el-input>
+                </el-form-item>
+                <el-form-item label="收件地址">
+                    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="userTempData.address"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button>取 消</el-button>
+                <el-button type="primary">确 定</el-button>
+            </div>
+        </el-dialog>
+    </div>
 </template>
 <script>
     import { getUsers } from 'api/member';
     export default {
         data() {
             return {
-                userData: []
+                userData: [],
+                userVisible: false,
+                userTempData: {}
             }
         },
         created() {
@@ -23,10 +66,18 @@
             });
         },
         methods: {
-
+            editUser(row) {
+                this.userVisible = true;
+                this.userTempData = row;
+            },
+            disSwitch(row) {
+                row.isdel = (row.isdel == 0 ? 1 : 0);
+            }
         }
     }
 </script>
 <style>
-    
+    .userTable {
+        width: 100%
+    }
 </style>
