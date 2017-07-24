@@ -1,5 +1,6 @@
 <template>
     <div>
+        <el-button type="primary" class="filter-item" icon="edit" style="margin: 10px 10px 10px 10px;float:right " @click="createUser">创建新用户</el-button>
         <el-table :data="userData" class="userTable" border fit highlight-current-row>
             <el-table-column type="index"></el-table-column>
             <el-table-column label="用户名">
@@ -29,6 +30,9 @@
                 <el-form-item label="姓名">
                     <el-input v-model="userTempData.name"></el-input>
                 </el-form-item>
+                <el-form-item v-if="tagCreate" label="密码">
+                    <el-input v-model="userTempData.password"></el-input>
+                </el-form-item>
                 <el-form-item label="总积分">
                     <el-input v-model="userTempData.total_cost"></el-input>
                 </el-form-item>
@@ -50,12 +54,13 @@
     </div>
 </template>
 <script>
-    import { getUsers, setUserState, setUserInfo } from 'api/member';
+    import { getUsers, setUserState, setUserInfo, createUser } from 'api/member';
     export default {
         data() {
             return {
                 userData: [],
                 userVisible: false,
+                tagCreate: true,
                 userTempData: {}
             }
         },
@@ -69,7 +74,13 @@
         methods: {
             editUser(row) {
                 this.userVisible = true;
+                this.tagCreate = false;
                 this.userTempData = row;
+            },
+            createUser() {
+                this.userTempData = {};
+                this.tagCreate = true;
+                this.userVisible = true;
             },
             disSwitch(row) {
                 var isdel = (row.isdel == 0 ? 1 : 0);
@@ -77,8 +88,32 @@
                     row.isdel = isdel;
                 })
             },
-            saveInfo() {
-                setUserInfo(this.userTempData.phone, this.userTempData.name, this.userTempData.recipient, this.userTempData.recipient_phone, this.userTempData.address, this.userTempData.total_cost, this.userVisible.id).then(data => {
+            create() {
+                createUser(this.userTempData.phone, this.userTempData.name, this.userTempData.password, this.userTempData.recipient, this.userTempData.recipient_phone, this.userTempData.address, this.userTempData.total_cost).then(data => {
+                    this.userVisible = false;
+                    this.$notify({
+                        title: '成功',
+                        message: '创建成功!',
+                        type: 'success'
+                    });
+                    getUsers(0, 100).then(res => {
+                        this.userData = res.data.data;
+                    }).catch(err => {
+                        this.$notify({
+                            title: '警告',
+                            message: '自动刷新失败，请手动F5刷新',
+                            type: 'warning'
+                        });
+                    });
+                }).catch(err => {
+                    this.$notify.error({
+                        title: '错误',
+                        message: '创建失败，服务器异常!'
+                    });
+                });
+            },
+            update() {
+                setUserInfo(this.userTempData.phone, this.userTempData.name, this.userTempData.recipient, this.userTempData.recipient_phone, this.userTempData.address, this.userTempData.total_cost, this.userTempData.id).then(data => {
                     this.userVisible = false;
                     this.$notify({
                         title: '成功',
@@ -91,10 +126,14 @@
                         message: '保存失败，服务器异常!'
                     });
                 });
-            }
+            },
+            saveInfo() {
+                this.tagCreate ? this.create() : this.update();
 
+            }
         }
     }
+
 </script>
 <style>
     .userTable {

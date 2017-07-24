@@ -55,11 +55,9 @@ const user = {
         // 邮箱登录
         LoginAdminByEmail({ commit }, userInfo) {
             const email = userInfo.email.trim();
-            console.log(userInfo);
             return new Promise((resolve, reject) => {
                 getToken(email, userInfo.password).then(response => {
                     const data = response.data;
-                    console.log(data);
                     Cookies.set('Admin-Token', data.token);
                     commit('SET_TOKEN', data.token);
                     resolve();

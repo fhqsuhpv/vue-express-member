@@ -10,6 +10,7 @@ var sqlMap = {
         getlimit: 'select id,phone,name,total_cost,isdel,recipient,recipient_phone,address from user_info limit ?,?',
         getCount: 'select count(*) from user_info',
         setUserInfoById: 'update user_info set phone = ?,name = ?,recipient = ? ,recipient_phone = ?,address = ? ,total_cost = ?,update_date = now() where id = ?',
+        createUser: 'insert into user_info (phone,name,password,recipient,recipient_phone,address,create_date,update_date,total_cost)values(?,?,?,?,?,?,now(),now(),?)',
         setDelete: 'update user_info set isdel = ? where id = ?'
     },
     integral: {

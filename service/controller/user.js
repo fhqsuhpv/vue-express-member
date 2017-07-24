@@ -44,6 +44,7 @@ var _verifyIdentity = (formData, isManager) => {
             });
     }
     return conn.queryAsync($sql.manager.getByUserPass, [formData.username, formData.password]).then(data => {
+        console.log(data);
         if (data[0] == undefined)
             return false;
         return data[0];
@@ -284,7 +285,7 @@ var setIsDel = (req) => {
  * @param {请求数据} req 
  * @returns 
  */
-var _getUserinfo = req => {
+var _getUserArray = req => {
     return [
         req.body.phone,
         req.body.name,
@@ -303,12 +304,38 @@ var _getUserinfo = req => {
  * @returns bool
  */
 var setUserInfo = (req) => {
-    return conn.queryAsync($sql.user.setUserInfoById, _getUserinfo(req)).then(data => {
+    return conn.queryAsync($sql.user.setUserInfoById, _getUserArray(req)).then(data => {
         return true;
     }).catch(err => {
         return false;
     });
 }
+
+var _createUserArray = req => {
+    return [
+        req.body.phone,
+        req.body.name,
+        req.body.password,
+        req.body.recipient,
+        req.body.recipient_phone,
+        req.body.address,
+        req.body.total_cost
+    ];
+};
+/**
+ * 创建用户
+ * 
+ * @param {请数据} req 
+ * @returns 
+ */
+var createUser = (req) => {
+    return conn.queryAsync($sql.user.createUser, _createUserArray(req)).then(data => {
+        return true;
+    }).catch(err => {
+        return false;
+    });
+}
+
 
 module.exports = {
     getIdentity,
@@ -319,5 +346,6 @@ module.exports = {
     setRecipient,
     getUsers,
     setIsDel,
-    setUserInfo
+    setUserInfo,
+    createUser
 }

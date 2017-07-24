@@ -30,12 +30,11 @@ apiObj.interceptors.request.use(
 );
 
 //登录获取token
-const getToken = (username, password) => {
-    apiObj.post('/users/admin/auth', {
-        'username': username,
-        'password': password
-    });
-};
+const getToken = (username, password) => apiObj.post('/users/admin/auth', {
+    'username': username,
+    'password': password
+});
+
 //获取用户信息
 const getUser = () => apiObj.get('/users/manager');
 
@@ -53,11 +52,22 @@ const setUserInfo = (phone, name, recipient, recipient_phone, address, total_cos
     'id': id
 });
 
+const createUser = (phone, name, password, recipient, recipient_phone, address, total_cost) => apiObj.post('/users', {
+    'phone': phone,
+    'name': name,
+    'password': password,
+    'recipient': recipient,
+    'recipient_phone': recipient_phone,
+    'address': address,
+    'total_cost': total_cost
+});
+
 export {
     // users 
     getToken,
     getUser,
     getUsers,
     setUserState,
-    setUserInfo
+    setUserInfo,
+    createUser
 }

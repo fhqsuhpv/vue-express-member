@@ -53,6 +53,18 @@ router.put('', (req, res) => {
     });
 });
 
+router.post('', (req, res) => {
+    user.createUser(req).then(data => {
+        jsonWrite(res, {
+            code: $codes.CREATESUCCE
+        });
+    }).catch(err => {
+        sonWrite(res, {
+            code: $codes.CREATEFAILS
+        });
+    });
+});
+
 //【接口】 获取管理员用户信息
 router.get('/manager', (req, res) => {
     var userinfo = user.getUserById(req, true);
