@@ -16,6 +16,7 @@
             </el-table-column>
             <el-table-column label="操作" width="200">
                 <template scope="scope">
+                    <el-button size="small" @click="editUser(scope.row)">编辑用户</el-button>
                     <el-button size="small" :type="scope.row.isdel == 0 ? 'danger':'success'" v-on:click="disSwitch(scope.row)">{{ scope.row.isdel == 0 ?'禁用帐号':'启用帐号'}}</el-button>
                 </template>
             </el-table-column>
@@ -42,14 +43,14 @@
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button>取 消</el-button>
-                <el-button type="primary">确 定</el-button>
+                <el-button @click="userVisible=false">取 消</el-button>
+                <el-button type="primary" @click="saveInfo()">确 定</el-button>
             </div>
         </el-dialog>
     </div>
 </template>
 <script>
-    import { getUsers } from 'api/member';
+    import { getUsers, setUserState, setUserInfo } from 'api/member';
     export default {
         data() {
             return {
@@ -71,8 +72,27 @@
                 this.userTempData = row;
             },
             disSwitch(row) {
-                row.isdel = (row.isdel == 0 ? 1 : 0);
+                var isdel = (row.isdel == 0 ? 1 : 0);
+                setUserState(isdel, row.id).then(data => {
+                    row.isdel = isdel;
+                })
+            },
+            saveInfo() {
+                setUserInfo(this.userTempData.phone, this.userTempData.name, this.userTempData.recipient, this.userTempData.recipient_phone, this.userTempData.address, this.userTempData.total_cost, this.userVisible.id).then(data => {
+                    this.userVisible = false;
+                    this.$notify({
+                        title: '成功',
+                        message: '保存成功!',
+                        type: 'success'
+                    });
+                }).catch(err => {
+                    this.$notify.error({
+                        title: '错误',
+                        message: '保存失败，服务器异常!'
+                    });
+                });
             }
+
         }
     }
 </script>

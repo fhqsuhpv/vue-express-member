@@ -246,6 +246,13 @@ var deductionCost = (id, req) => {
 };
 
 
+/**
+ * 获取用户信息清单，从begin开始取count条
+ * 
+ * @param {int} begin 
+ * @param {int} count 
+ * @returns array
+ */
 var getUsers = (begin, count) => {
     return conn.queryAsync($sql.user.getlimit, [begin, count]).then(data => {
         return data;
@@ -254,6 +261,55 @@ var getUsers = (begin, count) => {
     });
 };
 
+/**
+ * 更新是否禁用装态
+ * 
+ * @param {int 0/1} isdel 
+ * @param {int} id 
+ * @returns bool
+ */
+var setIsDel = (req) => {
+    var isdel = req.body.isdel;
+    var id = req.body.id;
+    return conn.queryAsync($sql.user.setDelete, [isdel, id]).then(data => {
+        return true;
+    }).catch(err => {
+        return false;
+    });
+};
+
+/**
+ * 私有组装用户数据更新
+ * 
+ * @param {请求数据} req 
+ * @returns 
+ */
+var _getUserinfo = req => {
+    return [
+        req.body.phone,
+        req.body.name,
+        req.body.recipient,
+        req.body.recipient_phone,
+        req.body.address,
+        req.body.total_cost,
+        req.body.id
+    ];
+};
+/**
+ * 更新用户信息
+ * 
+ * @param {请求数据} req 
+ * @param {int} id 
+ * @returns bool
+ */
+var setUserInfo = (req) => {
+    return conn.queryAsync($sql.user.setUserInfoById, _getUserinfo(req)).then(data => {
+        return true;
+    }).catch(err => {
+        return false;
+    });
+}
+
 module.exports = {
     getIdentity,
     generateToken,
@@ -261,5 +317,7 @@ module.exports = {
     contrastCost,
     getUserById,
     setRecipient,
-    getUsers
+    getUsers,
+    setIsDel,
+    setUserInfo
 }

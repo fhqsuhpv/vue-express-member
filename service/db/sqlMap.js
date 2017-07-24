@@ -9,7 +9,8 @@ var sqlMap = {
 
         getlimit: 'select id,phone,name,total_cost,isdel,recipient,recipient_phone,address from user_info limit ?,?',
         getCount: 'select count(*) from user_info',
-        setUserInfoById: 'update user_info set phone = ?,name = ?,password = ?, recipient = ? ,recipient_phone = ?,address = ? ,total_cost = ?,update_date = now() where id = ?'
+        setUserInfoById: 'update user_info set phone = ?,name = ?,recipient = ? ,recipient_phone = ?,address = ? ,total_cost = ?,update_date = now() where id = ?',
+        setDelete: 'update user_info set isdel = ? where id = ?'
     },
     integral: {
         getByUserId: 'select cost,record,create_date from integral where user_id = ? order by id desc',

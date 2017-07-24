@@ -40,6 +40,19 @@ router.get('', (req, res) => {
             });
         });
 });
+// 【接口】更新用户信息
+router.put('', (req, res) => {
+    user.setUserInfo(req).then(data => {
+        jsonWrite(res, {
+            code: $codes.UPDARESUCCE
+        });
+    }).catch(err => {
+        sonWrite(res, {
+            code: $codes.CREATEFAILS
+        });
+    });
+});
+
 //【接口】 获取管理员用户信息
 router.get('/manager', (req, res) => {
     var userinfo = user.getUserById(req, true);
@@ -90,5 +103,12 @@ router.get('/list', (req, res) => {
     });
 });
 
+router.put('/userState', (req, res) => {
+    user.setIsDel(req).then(data => {
+        jsonWrite(res, {
+            code: $codes.UPDARESUCCE
+        });
+    })
+});
 
 module.exports = router;

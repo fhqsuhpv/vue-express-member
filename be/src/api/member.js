@@ -31,8 +31,7 @@ apiObj.interceptors.request.use(
 
 //登录获取token
 const getToken = (username, password) => {
-    console.log(username)
-    return apiObj.post('/users/admin/auth', {
+    apiObj.post('/users/admin/auth', {
         'username': username,
         'password': password
     });
@@ -42,8 +41,23 @@ const getUser = () => apiObj.get('/users/manager');
 
 const getUsers = (begin, count) => apiObj.get('/users/list');
 
+const setUserState = (isdel, id) => apiObj.put('/users/userState', { 'isdel': isdel, 'id': id });
+
+const setUserInfo = (phone, name, recipient, recipient_phone, address, total_cost, id) => apiObj.put('/users', {
+    'phone': phone,
+    'name': name,
+    'recipient': recipient,
+    'recipient_phone': recipient_phone,
+    'address': address,
+    'total_cost': total_cost,
+    'id': id
+});
+
 export {
+    // users 
     getToken,
     getUser,
-    getUsers
+    getUsers,
+    setUserState,
+    setUserInfo
 }
