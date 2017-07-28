@@ -8,8 +8,10 @@
     <div class="gift-main">
       <div class="gift-cost">
         <img class="page-lazyload-image" :src="main_image" />
-        <h3>换购 {{ giftname }} 需花费积分:{{ cost }} 还有:{{current_count}}件</h3>
-        <mt-button type="danger" size="large" v-on:click="goToAddress()">立即换购</mt-button>
+        <a>换购 {{ giftname }}</a>
+        <h3>需花费积分:{{ cost }} </h3>
+        <a>还有:{{current_count}}件</a>
+        <!-- <mt-button type="danger" size="large" v-on:click="goToAddress()">立即换购</mt-button> -->
       </div>
       <ul>
         <li class="page-lazyload-listitem" v-for="item in listImg">
@@ -17,6 +19,12 @@
         </li>
       </ul>
     </div>
+    <mt-tabbar>
+      <mt-tab-item id="but">
+        <mt-button type="danger" size="large" v-on:click="goToAddress()">立即换购</mt-button>
+      </mt-tab-item>
+    </mt-tabbar>
+
   </div>
 </template>
 
@@ -70,18 +78,19 @@
 <style>
   .gift-main {
     width: 100%;
-    margin-top: 40px;
+    margin-top: 50px;
+    text-align: center;
   }
 
   .gift-cost {
-    width: 100%;
+    width: 90%;
     margin: 0 auto;
     margin-bottom: 10px;
     margin-top: 10px;
   }
 
   .page-lazyload-listitem {
-    width: 100%;
+    width: 90%;
     margin: 0 auto;
     margin-bottom: 10px;
     background-color: #ddd;

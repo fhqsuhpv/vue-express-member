@@ -3,7 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import { Button, Field, InfiniteScroll, Header, Actionsheet, Switch } from 'mint-ui';
+import { Button, Field, InfiniteScroll, Header, Actionsheet, Switch, Tabbar, TabItem } from 'mint-ui';
+
+Vue.component(Tabbar.name, Tabbar);
+Vue.component(TabItem.name, TabItem);
 
 Vue.component(Header.name, Header);
 Vue.component(Field.name, Field);
