@@ -8,7 +8,12 @@ if (process.env.NODE_ENV === 'development') {
         baseURL: 'http://127.0.0.1:3000/api/v1',
         timeout: 5000
     };
-} else {};
+} else {
+    config = {
+        baseURL: 'http://api.bjfinelycup.cn/api/v1',
+        timeout: 5000
+    };
+};
 
 const apiObj = axios.create(config);
 
