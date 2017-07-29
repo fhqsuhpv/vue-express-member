@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="CardImgBck">
-      <a class="membertext">莉莉家会员卡 </a>
+      <!-- <a class="membertext">莉莉家会员卡 </a> -->
     </div>
     <mt-field label="用户名" placeholder="请输入手机号" v-model="username"></mt-field>
     <mt-field label="密码" placeholder="请输入密码" type="password" v-model="password"></mt-field>
@@ -73,7 +73,7 @@
 <style scoped>
   .CardImgBck {
     background-image: url(../assets/card.png);
-    height: 215px;
+    height: 180px;
     margin: 0px 0px 10px 0px;
     background-repeat: no-repeat;
     background-size: 100% 100%;

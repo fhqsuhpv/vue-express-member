@@ -2,11 +2,12 @@
   <div class="card">
     <!--<img class="cardimg" src="../assets/card.png">-->
     <div class="CardImgBck">
-      <a class="membertext">莉莉家会员卡 </a>
+      <!-- <a class="membertext">莉莉家会员卡 </a> -->
       </br>
-      <a class="bmtxt">用户名:{{ userName }}总积分:{{ totalCost }}</a>
-    </div>
 
+    </div>
+    <h5 class="bmtxt">用户名:{{ userName }}</h5>
+    <h5 class="bmtxt">总积分:{{ totalCost }}</h5>
     <mt-button type="default" size="large" class="mt-button" v-on:click="goToList()">积分对换缤纷好礼</mt-button>
     <mt-button type="default" size="large" class="mt-button" v-on:click="goToMyGiftList()">我兑换到的礼品</mt-button>
     <mt-button type="danger" size="large" class="mt-button" v-on:click="quitUser()">安全退出用户</mt-button>
@@ -100,7 +101,7 @@
 
   .CardImgBck {
     background-image: url(../assets/card.png);
-    height: 215px;
+    height: 180px;
     margin: 0px 0px 10px 0px;
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -128,7 +129,9 @@
 
   .bmtxt {
     font-size: 15px;
-    color: white;
+    color: black;
+    text-align: center;
+    margin: 0px 0px 10px 0px;
   }
 </style>
 
