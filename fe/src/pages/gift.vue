@@ -13,17 +13,18 @@
         <a>还有:{{current_count}}件</a>
         <!-- <mt-button type="danger" size="large" v-on:click="goToAddress()">立即换购</mt-button> -->
       </div>
+
       <ul>
         <li class="page-lazyload-listitem" v-for="item in listImg">
           <img class="page-lazyload-image" :src="item.image_path" />
         </li>
       </ul>
+      <mt-tabbar>
+        <mt-tab-item>
+          <mt-button type="danger" size="large" v-on:click="goToAddress()">立即换购</mt-button>
+        </mt-tab-item>
+      </mt-tabbar>
     </div>
-    <mt-tabbar>
-      <mt-tab-item id="but">
-        <mt-button type="danger" size="large" v-on:click="goToAddress()">立即换购</mt-button>
-      </mt-tab-item>
-    </mt-tabbar>
 
   </div>
 </template>

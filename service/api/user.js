@@ -1,7 +1,7 @@
-var coc = require('../controller/coc');
-var $codes = require('../controller/customcode');
+var coc = require('../utils/coc');
+var $codes = require('../utils/customcode');
 var user = require('../controller/user');
-var jsonWrite = require('./jsonwrite');
+var jsonWrite = require('../utils/jsonwrite');
 
 var express = require('express'),
     cors = require('cors');
@@ -90,6 +90,7 @@ router.post('/sufficient', (req, res) => {
 //根据所换购的礼品进行扣费
 router.put('/cost', (req, res) => {
     var id = user.getIdentity(req).id;
+    if (userdata == null) return jsonWrite(res, { code: $codes.VERIFYFAILS });
     user.deductionCost(id, req).then(state => {
         jsonWrite(res, {
             code: state ? $codes.VERIFYSUCCE : $codes.LACKOFBALANCE
@@ -99,6 +100,7 @@ router.put('/cost', (req, res) => {
 
 router.put('/recipient', (req, res) => {
     var id = user.getIdentity(req).id;
+    if (userdata == null) return jsonWrite(res, { code: $codes.VERIFYFAILS });
     user.setRecipient(id, req).then(state => {
         jsonWrite(res, {
             code: state ? $codes.VERIFYSUCCE : $codes.VERIFYSUCCE

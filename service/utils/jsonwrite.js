@@ -1,4 +1,4 @@
-var $codes = require('../controller/customcode');
+var $codes = require('../utils/customcode');
 
 var jsonWrite = (res, ret) => {
     if (typeof ret === 'undefined') {

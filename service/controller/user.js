@@ -102,7 +102,7 @@ var _verifyToken = req => {
         //验证token是否有效
         payload = jwt.verify(token, SCRKEY);
     } catch (err) {
-        console.log(err);
+        console.log('verify token failure');
     }
 
     return payload;
@@ -194,10 +194,11 @@ var getUserById = (req, isManager) => {
  * @returns
  */
 var contrastCost = req => {
-    var id = getIdentity(req).id;
+    var userdata = getIdentity(req);
+    if (userdata == null) return jsonWrite(res, { code: $codes.VERIFYFAILS });
     var giftid = req.body.giftid;
     console.log(giftid);
-    return conn.queryAsync($sql.user.getById, [id]).then(data => {
+    return conn.queryAsync($sql.user.getById, [userdata.id]).then(data => {
         if (data == undefined) throw ('get user err');
         return data[0].total_cost;
     }).then(usercost => {

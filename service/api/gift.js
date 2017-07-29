@@ -1,8 +1,8 @@
-var coc = require('../controller/coc');
+var coc = require('../utils/coc');
 var gift = require('../controller/gift');
-var $codes = require('../controller/customcode');
+var $codes = require('../utils/customcode');
 var auth = require('../controller/user');
-var jsonWrite = require('./jsonwrite');
+var jsonWrite = require('../utils/jsonwrite');
 
 var express = require('express'),
     cors = require('cors');
@@ -24,6 +24,7 @@ router.get('/list', (req, res) => {
 
 router.get('/:id', (req, res) => {
     var giftDetailId = req.param('id');
+
     gift.getGift(giftDetailId).then(data => {
         return jsonWrite(res, {
             code: $codes.VERIFYSUCCE,
@@ -34,6 +35,7 @@ router.get('/:id', (req, res) => {
 
 router.get('/detail/:id', (req, res) => {
     var giftDetailId = req.param('id');
+
     gift.getGiftDetail(giftDetailId).then(data => {
         return jsonWrite(res, {
             code: $codes.VERIFYSUCCE,

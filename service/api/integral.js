@@ -1,8 +1,8 @@
-var coc = require('../controller/coc');
+var coc = require('../utils/coc');
 var integral = require('../controller/integral');
-var $codes = require('../controller/customcode');
+var $codes = require('../utils/customcode');
 var auth = require('../controller/user');
-var jsonWrite = require('./jsonwrite');
+var jsonWrite = require('../utils/jsonwrite');
 
 var express = require('express'),
     cors = require('cors');
@@ -15,6 +15,7 @@ router.all('*', cors(coc));
 
 router.get('/list', (req, res) => {
     var userdata = auth.getIdentity(req);
+    if (userdata == null) return jsonWrite(res, { code: $codes.VERIFYFAILS });
     integral.getListById(userdata.id).then(data => {
         return jsonWrite(res, {
             code: $codes.VERIFYSUCCE,
