@@ -73,7 +73,7 @@
 <style scoped>
   .CardImgBck {
     background-image: url(../assets/card.png);
-    height: 180px;
+    height: 190px;
     margin: 0px 0px 10px 0px;
     background-repeat: no-repeat;
     background-size: 100% 100%;
