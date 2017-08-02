@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'development') {
     };
 } else {
     config = {
-        baseURL: 'http://127.0.0.1:3000/api/v1',
+        baseURL: 'http://api.bjfinelycup.cn/api/v1',
         timeout: 5000
     };
 };
@@ -62,6 +62,12 @@ const createUser = (phone, name, password, recipient, recipient_phone, address, 
     'total_cost': total_cost
 });
 
+
+
+//礼品现关API
+
+const getGifts = () => apiObj.get('/gift/list');
+
 export {
     // users 
     getToken,
@@ -69,5 +75,7 @@ export {
     getUsers,
     setUserState,
     setUserInfo,
-    createUser
+    createUser,
+    // gifts
+    getGifts
 }

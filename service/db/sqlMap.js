@@ -19,7 +19,7 @@ var sqlMap = {
     },
     gift: {
         getById: 'select id,name,main_image,cost,current_count from gift where id = ?',
-        getAll: 'select id,name,main_image,cost,current_count from gift',
+        getAll: 'select id,name,main_image,total_count,cost,current_count from gift',
         getDetail: 'select image_path,priority from gift_detail where gift_id = ? order by priority desc'
     },
     order: {

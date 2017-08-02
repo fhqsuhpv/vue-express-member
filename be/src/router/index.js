@@ -65,6 +65,9 @@ const Permission = _import('permission/index');
 
 
 const UserManager = _import('user/usermanager');
+const OrderManager = _import('order/ordermanager');
+const GiftManager = _import('gift/giftmanager');
+const Gift = _import('gift/gift');
 
 Vue.use(Router);
 
@@ -120,15 +123,19 @@ export const asyncRouterMap = [{
         name: 'et',
         icon: 'zujian',
         noDropdown: true,
-        children: [{ path: '', component: Theme, name: '礼品管理' }]
-    }, {
+        children: [
+            { path: '', component: GiftManager, name: '礼品管理' },
+            { path: ':id', component: Gift, name: '礼品' }
+        ]
+    },
+    {
         path: '/order',
         component: Layout,
         redirect: 'noredirect',
         name: 'et',
         icon: 'tubiaoleixingzhengchang',
         noDropdown: true,
-        children: [{ path: '', component: Theme, name: '订单管理' }]
+        children: [{ path: '', component: OrderManager, name: '订单管理' }]
     },
     {
         path: '/permission',
