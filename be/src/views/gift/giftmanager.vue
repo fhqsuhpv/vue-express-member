@@ -48,9 +48,10 @@
             });
         },
         methods: {
-            editClick(giftid) {
+            editClick(id) {
                 //console.log(id);
-                this.$router.push({ path: '/gift/' + giftid });
+                this.$router.push({ path: '/gift/' + id });
+                //this.$router.push({ name: 'gift', params: { id: 1 } });
             }
         }
     }

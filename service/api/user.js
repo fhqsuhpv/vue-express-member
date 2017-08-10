@@ -89,9 +89,9 @@ router.post('/sufficient', (req, res) => {
 
 //根据所换购的礼品进行扣费
 router.put('/cost', (req, res) => {
-    var id = user.getIdentity(req).id;
+    var userdata = user.getIdentity(req);
     if (userdata == null) return jsonWrite(res, { code: $codes.VERIFYFAILS });
-    user.deductionCost(id, req).then(state => {
+    user.deductionCost(userdata.id, req).then(state => {
         jsonWrite(res, {
             code: state ? $codes.VERIFYSUCCE : $codes.LACKOFBALANCE
         });
@@ -99,9 +99,9 @@ router.put('/cost', (req, res) => {
 });
 
 router.put('/recipient', (req, res) => {
-    var id = user.getIdentity(req).id;
+    var userdata = user.getIdentity(req);
     if (userdata == null) return jsonWrite(res, { code: $codes.VERIFYFAILS });
-    user.setRecipient(id, req).then(state => {
+    user.setRecipient(userdata.id, req).then(state => {
         jsonWrite(res, {
             code: state ? $codes.VERIFYSUCCE : $codes.VERIFYSUCCE
         });

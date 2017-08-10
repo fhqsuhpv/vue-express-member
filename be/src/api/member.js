@@ -67,6 +67,7 @@ const createUser = (phone, name, password, recipient, recipient_phone, address, 
 //礼品现关API
 
 const getGifts = () => apiObj.get('/gift/list');
+const getGift = id => apiObj.get('/gift/' + id);
 
 export {
     // users 
@@ -77,5 +78,6 @@ export {
     setUserInfo,
     createUser,
     // gifts
-    getGifts
+    getGifts,
+    getGift
 }

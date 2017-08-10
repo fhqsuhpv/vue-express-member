@@ -1,15 +1,6 @@
-var models = require('../db/db');
 var $sql = require('../db/sqlMap');
 var jwt = require('jsonwebtoken');
-var promise = require('bluebird');
-var mysql = require('mysql');
-
-promise.promisifyAll(require("mysql/lib/Connection").prototype);
-promise.promisifyAll(require("mysql/lib/Pool").prototype);
-
-// 连接数据库
-var conn = mysql.createConnection(models.mysql);
-conn.connect();
+var conn = require('../db/mysqlconn');
 
 var SCRKEY = 'memberkey';
 /**
@@ -118,6 +109,7 @@ var _verifyToken = req => {
  */
 var getIdentity = req => {
     var payload = _verifyToken(req);
+    if (payload == null) return null;
     return payload && payload['data'];
 };
 
