@@ -1,5 +1,5 @@
-var models = require('../db/db');
-var $sql = require('../db/sqlMap');
+var models = require('./db');
+var $sql = require('./sqlMap');
 var promise = require('bluebird');
 var mysql = require('mysql');
 
