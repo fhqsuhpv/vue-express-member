@@ -1,7 +1,8 @@
 var coc = require('../utils/coc');
 var $codes = require('../utils/customcode');
-var user = require('../controller/user');
+var auth = require('../utils/auth');
 var jsonWrite = require('../utils/jsonwrite');
+var user = require('../controller/user');
 
 var express = require('express'),
     cors = require('cors');
@@ -13,7 +14,7 @@ router.all('*', cors(coc));
 
 //【接口】获取token
 router.post('/auth', (req, res) => {
-    user.generateToken(req, false).then(newToken => jsonWrite(res, {
+    auth.generateToken(req, false).then(newToken => jsonWrite(res, {
         code: newToken == '' ? $codes.VERIFYFAILS : $codes.VERIFYSUCCE,
         token: newToken,
     }));
@@ -21,7 +22,7 @@ router.post('/auth', (req, res) => {
 
 //【接口】获取管理员token
 router.post('/admin/auth', (req, res) => {
-    user.generateToken(req, true).then(newToken => jsonWrite(res, {
+    auth.generateToken(req, true).then(newToken => jsonWrite(res, {
         code: newToken == '' ? $codes.VERIFYFAILS : $codes.VERIFYSUCCE,
         token: newToken,
     }));
@@ -89,7 +90,7 @@ router.post('/sufficient', (req, res) => {
 
 //根据所换购的礼品进行扣费
 router.put('/cost', (req, res) => {
-    var userdata = user.getIdentity(req);
+    var userdata = auth.getIdentity(req);
     if (userdata == null) return jsonWrite(res, { code: $codes.VERIFYFAILS });
     user.deductionCost(userdata.id, req).then(state => {
         jsonWrite(res, {
@@ -99,7 +100,7 @@ router.put('/cost', (req, res) => {
 });
 
 router.put('/recipient', (req, res) => {
-    var userdata = user.getIdentity(req);
+    var userdata = auth.getIdentity(req);
     if (userdata == null) return jsonWrite(res, { code: $codes.VERIFYFAILS });
     user.setRecipient(userdata.id, req).then(state => {
         jsonWrite(res, {

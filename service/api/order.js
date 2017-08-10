@@ -1,7 +1,7 @@
 var coc = require('../utils/coc');
 var order = require('../controller/order');
 var $codes = require('../utils/customcode');
-var auth = require('../controller/user');
+var auth = require('../utils/auth');
 var jsonWrite = require('../utils/jsonwrite');
 
 var express = require('express'),
