@@ -12,12 +12,12 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// 捕获404并定向到错误处理
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
+// // 捕获404并定向到错误处理
+// app.use(function(req, res, next) {
+//     var err = new Error('Not Found');
+//     err.status = 404;
+//     next(err);
+// });
 // 生产环境下的错误处理
 // 不会向用户显示堆栈信息
 app.use(function(err, req, res, next) {

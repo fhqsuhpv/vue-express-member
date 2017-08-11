@@ -31,6 +31,10 @@ router.get('', (req, res) => {
             code: $codes.VERIFYSUCCE,
             data: data
         })
+    }).catch(err => {
+        return jsonWrite(res, {
+            code: $codes.VERIFYFAILS,
+        });
     });
 });
 

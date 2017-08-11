@@ -22,7 +22,7 @@ router.get('/list', (req, res) => {
     }).catch(err => {
         return jsonWrite(res, {
             code: $codes.CREATEFAILS,
-        })
+        });
     });
 });
 
@@ -34,6 +34,10 @@ router.get('/:id', (req, res) => {
             code: $codes.VERIFYSUCCE,
             data: JSON.stringify(data[0])
         });
+    }).catch(err => {
+        return jsonWrite(res, {
+            code: $codes.VERIFYFAILS,
+        });
     });
 });
 
@@ -44,6 +48,10 @@ router.get('/detail/:id', (req, res) => {
         return jsonWrite(res, {
             code: $codes.VERIFYSUCCE,
             data: JSON.stringify(data)
+        });
+    }).catch(err => {
+        return jsonWrite(res, {
+            code: $codes.VERIFYFAILS,
         });
     });
 });

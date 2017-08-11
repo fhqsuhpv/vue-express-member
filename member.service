@@ -1,0 +1,10 @@
+[Service]
+ExecStart=/usr/local/bin/node /opt/vue-express-member/service/app.js
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=myapp
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

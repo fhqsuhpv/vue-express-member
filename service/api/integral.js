@@ -21,6 +21,10 @@ router.get('/list', (req, res) => {
             code: $codes.VERIFYSUCCE,
             data: JSON.stringify(data)
         })
+    }).catch(err => {
+        return jsonWrite(res, {
+            code: $codes.VERIFYFAILS,
+        });
     });
 
 });

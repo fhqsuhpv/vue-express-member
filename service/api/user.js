@@ -17,7 +17,11 @@ router.post('/auth', (req, res) => {
     auth.generateToken(req, false).then(newToken => jsonWrite(res, {
         code: newToken == '' ? $codes.VERIFYFAILS : $codes.VERIFYSUCCE,
         token: newToken,
-    }));
+    })).catch(err => {
+        return jsonWrite(res, {
+            code: $codes.VERIFYFAILS,
+        });
+    });
 });
 
 //【接口】获取管理员token
@@ -25,19 +29,27 @@ router.post('/admin/auth', (req, res) => {
     auth.generateToken(req, true).then(newToken => jsonWrite(res, {
         code: newToken == '' ? $codes.VERIFYFAILS : $codes.VERIFYSUCCE,
         token: newToken,
-    }));
+    })).catch(err => {
+        return jsonWrite(res, {
+            code: $codes.VERIFYFAILS,
+        });
+    });
 });
 
 //【接口】获取用户信息
 router.get('', (req, res) => {
     var userinfo = user.getUserById(req, false);
-    if (userinfo == '') {
+    if (userinfo == '')
         jsonWrite(res, { code: $codes.CREATEFAILS });
-    } else
+    else
         userinfo.then(data => {
             jsonWrite(res, {
                 code: data == '' ? $codes.VERIFYFAILS : $codes.VERIFYSUCCE,
                 data: data
+            }).catch(err => {
+                return jsonWrite(res, {
+                    code: $codes.VERIFYFAILS,
+                });
             });
         });
 });
@@ -76,6 +88,10 @@ router.get('/manager', (req, res) => {
                 code: data == '' ? $codes.VERIFYFAILS : $codes.VERIFYSUCCE,
                 data: data
             });
+        }).catch(err => {
+            return jsonWrite(res, {
+                code: $codes.VERIFYFAILS,
+            });
         });
 });
 
@@ -84,6 +100,10 @@ router.post('/sufficient', (req, res) => {
     user.contrastCost(req).then(data => {
         jsonWrite(res, {
             code: data.state ? $codes.VERIFYSUCCE : $codes.LACKOFBALANCE
+        });
+    }).catch(err => {
+        return jsonWrite(res, {
+            code: $codes.VERIFYFAILS,
         });
     });
 });
@@ -96,6 +116,10 @@ router.put('/cost', (req, res) => {
         jsonWrite(res, {
             code: state ? $codes.VERIFYSUCCE : $codes.LACKOFBALANCE
         });
+    }).catch(err => {
+        return jsonWrite(res, {
+            code: $codes.VERIFYFAILS,
+        });
     });
 });
 
@@ -106,6 +130,10 @@ router.put('/recipient', (req, res) => {
         jsonWrite(res, {
             code: state ? $codes.VERIFYSUCCE : $codes.VERIFYSUCCE
         });
+    }).catch(err => {
+        return jsonWrite(res, {
+            code: $codes.VERIFYFAILS,
+        });
     });
 });
 
@@ -115,6 +143,10 @@ router.get('/list', (req, res) => {
             code: $codes.VERIFYSUCCE,
             data: data
         })
+    }).catch(err => {
+        return jsonWrite(res, {
+            code: $codes.VERIFYFAILS,
+        });
     });
 });
 
@@ -123,7 +155,11 @@ router.put('/userState', (req, res) => {
         jsonWrite(res, {
             code: $codes.UPDARESUCCE
         });
-    })
+    }).catch(err => {
+        return jsonWrite(res, {
+            code: $codes.VERIFYFAILS,
+        });
+    });
 });
 
 module.exports = router;
