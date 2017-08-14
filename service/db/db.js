@@ -5,6 +5,6 @@ module.exports = {
         user: 'root',
         password: 'fhqsuhpv',
         database: 'member',
-        //useConnectionPooling: true
+        useConnectionPooling: true
     }
 }
