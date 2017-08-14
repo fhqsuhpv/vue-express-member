@@ -24,8 +24,8 @@ var _getCredentials = req => {
 var _verifyIdentity = (formData, isManager) => {
 
     var sql = $sql.user.getByUserPass;
-    console.log(formData.username, formData.password);
-    console.log(isManager);
+    console.log('verifyIdentity:',
+        formData.username, formData.password);
     if (!isManager) {
         return conn.queryAsync(sql, [formData.username, formData.password])
             .then(data => {

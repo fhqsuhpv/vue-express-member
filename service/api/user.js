@@ -14,10 +14,14 @@ router.all('*', cors(coc));
 
 //【接口】获取token
 router.post('/auth', (req, res) => {
-    auth.generateToken(req, false).then(newToken => jsonWrite(res, {
-        code: newToken == '' ? $codes.VERIFYFAILS : $codes.VERIFYSUCCE,
-        token: newToken,
-    })).catch(err => {
+    auth.generateToken(req, false).then(newToken => {
+        console.log('generateToken:', newToken);
+        jsonWrite(res, {
+            code: newToken == '' ? $codes.VERIFYFAILS : $codes.VERIFYSUCCE,
+            token: newToken,
+        })
+    }).catch(err => {
+        console.log('generateToken:', err);
         return jsonWrite(res, {
             code: $codes.VERIFYFAILS,
         });
