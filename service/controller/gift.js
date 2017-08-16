@@ -2,7 +2,7 @@ var $sql = require('../db/sqlMap');
 var conn = require('../db/mysqlconn');
 
 var getAll = () => {
-    return conn.queryAsync($sql.gift.getAll).then(data => {
+    return conn().queryAsync($sql.gift.getAll).then(data => {
         if (data == undefined) return {};
         return data;
     });
@@ -15,7 +15,7 @@ var getAll = () => {
  * @returns
  */
 var getGift = giftId => {
-    return conn.queryAsync($sql.gift.getById, [giftId]).then(data => {
+    return conn().queryAsync($sql.gift.getById, [giftId]).then(data => {
         if (data == undefined) return '';
         return data;
     });
@@ -28,7 +28,7 @@ var getGift = giftId => {
  * @returns
  */
 var getGiftDetail = giftId => {
-    return conn.queryAsync($sql.gift.getDetail, [giftId]).then(data => {
+    return conn().queryAsync($sql.gift.getDetail, [giftId]).then(data => {
         if (data == undefined) return '';
         return data;
     });

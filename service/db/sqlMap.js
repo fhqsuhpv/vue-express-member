@@ -18,7 +18,7 @@ var sqlMap = {
         createIntegral: 'insert into integral(user_id,cost,record,create_date) values(?,?,?,now())'
     },
     gift: {
-        getById: 'select id,name,main_image,cost,current_count from gift where id = ?',
+        getById: 'select id,name,main_image,total_count,cost,current_count from gift where id = ?',
         getAll: 'select id,name,main_image,total_count,cost,current_count from gift',
         getDetail: 'select image_path,priority from gift_detail where gift_id = ? order by priority desc'
     },

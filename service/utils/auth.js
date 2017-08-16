@@ -27,14 +27,14 @@ var _verifyIdentity = (formData, isManager) => {
     console.log('verifyIdentity:',
         formData.username, formData.password);
     if (!isManager) {
-        return conn.queryAsync(sql, [formData.username, formData.password])
+        return conn().queryAsync(sql, [formData.username, formData.password])
             .then(data => {
                 if (data[0] == undefined)
                     return false;
                 return data[0];
             });
     }
-    return conn.queryAsync($sql.manager.getByUserPass, [formData.username, formData.password]).then(data => {
+    return conn().queryAsync($sql.manager.getByUserPass, [formData.username, formData.password]).then(data => {
         console.log(data);
         if (data[0] == undefined)
             return false;

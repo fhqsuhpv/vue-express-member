@@ -7,9 +7,11 @@ const orderApi = require('./api/order');
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
 const express = require('express');
 const app = express();
 
+app.use(fileUpload());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // // 捕获404并定向到错误处理

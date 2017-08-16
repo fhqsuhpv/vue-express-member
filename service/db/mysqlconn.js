@@ -6,23 +6,40 @@ var mysql = require('mysql');
 promise.promisifyAll(require("mysql/lib/Connection").prototype);
 promise.promisifyAll(require("mysql/lib/Pool").prototype);
 
-// 连接数据库
-var conn = mysql.createConnection(models.mysql);
+var myconn;
 
-function handleError(err) {
-    if (err) {
-        // 如果是连接断开，自动重新连接
-        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-            conn = mysql.createConnection(models.mysql);
-            conn.connect(handleError);
-            conn.on('error', handleError);
-        } else {
-            console.error(err.stack || err);
+var mysqlconn = {};
+
+var handleDisconnect = (err) => {
+    myconn = mysql.createConnection(models.mysql);
+    myconn.connect(function(err) {
+        // The server is either down
+        // or restarting
+        if (err) {
+            // We introduce a delay before attempting to reconnect,
+            // to avoid a hot loop, and to allow our node script to
+            // process asynchronous requests in the meantime.
+            console.log('error when connecting to db:', err);
+            setTimeout(handleDisconnect, 2000);
         }
-    }
+        myconn.queryAsync($sql.gift.getAll).then(data => {
+            console.log(data);
+        });
+    });
+    myconn.on('error', function(err) {
+        console.log('db error', err);
+        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+            handleDisconnect();
+        } else {
+            throw err;
+        }
+    });
 }
 
-conn.connect(handleError);
-conn.on('error', handleError);
+var conn = () => {
+    return myconn;
+}
+
+handleDisconnect();
 
 module.exports = conn;

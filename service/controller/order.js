@@ -29,7 +29,7 @@ var _getData = (req, userdata) => {
 var createOrder = (req, userdata) => {
     return user.deductionCost(userdata.id, req).then(data => {
         if (data) {
-            return conn.queryAsync($sql.order.createOrder, _getData(req, userdata)).then(data => {
+            return conn().queryAsync($sql.order.createOrder, _getData(req, userdata)).then(data => {
                 console.log(data);
                 if (data == undefined) return false;
                 return true;
@@ -47,7 +47,7 @@ var createOrder = (req, userdata) => {
  * @returns
  */
 var getOrderByUserId = userid => {
-    return conn.queryAsync($sql.order.getByUserId, [userid]).then(data => {
+    return conn().queryAsync($sql.order.getByUserId, [userid]).then(data => {
         if (!data) return '';
         return data;
     });

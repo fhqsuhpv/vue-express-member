@@ -7,7 +7,7 @@ var conn = require('../db/mysqlconn');
  * @returns
  */
 var getListById = userId => {
-    return conn.queryAsync($sql.integral.getByUserId, [userId]).then(data => {
+    return conn().queryAsync($sql.integral.getByUserId, [userId]).then(data => {
         if (data == undefined) return {};
         return data;
     });

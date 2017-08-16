@@ -28,7 +28,7 @@ var _getRecipient = (req, id) => {
  */
 var setRecipient = (id, req) => {
     //console.log(req);
-    return conn.queryAsync($sql.user.setRecipient, _getRecipient(req, id)).then(data => {
+    return conn().queryAsync($sql.user.setRecipient, _getRecipient(req, id)).then(data => {
         console.log(data);
         return true;
     });
@@ -44,11 +44,11 @@ var getUserById = (req, isManager) => {
     var userinfo = auth.getIdentity(req);
     if (userinfo == null) return '';
     if (!isManager)
-        return conn.queryAsync($sql.user.getById, [userinfo.id]).then(data => {
+        return conn().queryAsync($sql.user.getById, [userinfo.id]).then(data => {
             if (data == undefined) return '';
             return data[0];
         });
-    return conn.queryAsync($sql.manager.getByID, [userinfo.id]).then(data => {
+    return conn().queryAsync($sql.manager.getByID, [userinfo.id]).then(data => {
         if (data == undefined) return '';
         return data[0];
     });
@@ -64,11 +64,11 @@ var contrastCost = req => {
     var userdata = auth.getIdentity(req);
     if (userdata == null) return jsonWrite(res, { code: $codes.VERIFYFAILS });
     var giftid = req.body.giftid;
-    return conn.queryAsync($sql.user.getById, [userdata.id]).then(data => {
+    return conn().queryAsync($sql.user.getById, [userdata.id]).then(data => {
         if (data == undefined) throw ('get user err');
         return data[0].total_cost;
     }).then(usercost => {
-        return conn.queryAsync($sql.gift.getById, [giftid]).then((data) => {
+        return conn().queryAsync($sql.gift.getById, [giftid]).then((data) => {
             if (usercost >= data[0].cost) {
                 return {
                     state: true,
@@ -93,11 +93,11 @@ var contrastCost = req => {
 var deductionCost = (id, req) => {
     return contrastCost(req).then(data => {
         if (data.state) {
-            return conn.queryAsync($sql.user.setCost, [data.userCost - data.giftCost, id]).then((err, result) => {
+            return conn().queryAsync($sql.user.setCost, [data.userCost - data.giftCost, id]).then((err, result) => {
                 // if (err) {
                 //     conn.rollback((err) => { throw err });
                 // }
-                return conn.queryAsync($sql.integral.createIntegral, [id, -data.giftCost, data.giftName]).then((err, data) => {
+                return conn().queryAsync($sql.integral.createIntegral, [id, -data.giftCost, data.giftName]).then((err, data) => {
                     //console.log(data); //进行解析
                     // if (err) {
                     //     conn.rollback((err) => { throw err });
@@ -122,7 +122,7 @@ var deductionCost = (id, req) => {
  * @returns array
  */
 var getUsers = (begin, count) => {
-    return conn.queryAsync($sql.user.getlimit, [begin, count]).then(data => {
+    return conn().queryAsync($sql.user.getlimit, [begin, count]).then(data => {
         return data;
     }).catch(err => {
         return [];
@@ -139,7 +139,7 @@ var getUsers = (begin, count) => {
 var setIsDel = (req) => {
     var isdel = req.body.isdel;
     var id = req.body.id;
-    return conn.queryAsync($sql.user.setDelete, [isdel, id]).then(data => {
+    return conn().queryAsync($sql.user.setDelete, [isdel, id]).then(data => {
         return true;
     }).catch(err => {
         return false;
@@ -171,7 +171,7 @@ var _getUserArray = req => {
  * @returns bool
  */
 var setUserInfo = (req) => {
-    return conn.queryAsync($sql.user.setUserInfoById, _getUserArray(req)).then(data => {
+    return conn().queryAsync($sql.user.setUserInfoById, _getUserArray(req)).then(data => {
         return true;
     }).catch(err => {
         return false;
@@ -196,7 +196,7 @@ var _createUserArray = req => {
  * @returns 
  */
 var createUser = (req) => {
-    return conn.queryAsync($sql.user.createUser, _createUserArray(req)).then(data => {
+    return conn().queryAsync($sql.user.createUser, _createUserArray(req)).then(data => {
         return true;
     }).catch(err => {
         return false;
