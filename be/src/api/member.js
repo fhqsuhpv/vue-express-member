@@ -69,6 +69,40 @@ const createUser = (phone, name, password, recipient, recipient_phone, address, 
 const getGifts = () => apiObj.get('/gift/list');
 const getGift = id => apiObj.get('/gift/' + id);
 
+const createGift = (giftData) => apiObj.post('/gift', {
+    'name': giftData.name,
+    'main_image': giftData.main_image,
+    'cost': giftData.cost,
+    'total_count': giftData.total_count,
+    'current_count': giftData.current_count,
+});
+
+const getGiftDetail = id => apiObj.get('/gift/detail/' + id);
+
+const setGift = (giftData) => apiObj.put('/gift', {
+    'name': giftData.name,
+    'main_image': giftData.main_image,
+    'cost': giftData.cost,
+    'total_count': giftData.total_count,
+    'current_count': giftData.current_count,
+    'is_visible': giftData.is_visible,
+    'giftId': giftData.id
+});
+
+const setGiftDetail = (giftDataDetail) => apiObj.put('/gift/detail', {
+    'image_path': giftDataDetail.image_path,
+    'priority': giftDataDetail.priority,
+    'is_visible': giftDataDetail.is_visible,
+    'id': giftDataDetail.id
+});
+const addGiftDetail = giftDataDetail => apiObj.post('/gift/detail', {
+    'gift_id': giftDataDetail.gift_id,
+    'image_path': giftDataDetail.image_path,
+    'priority': giftDataDetail.priority
+});
+
+const upload = () => config.baseURL + '/gift/upload';
+
 export {
     // users 
     getToken,
@@ -79,5 +113,12 @@ export {
     createUser,
     // gifts
     getGifts,
-    getGift
+    getGift,
+    createGift,
+    getGiftDetail,
+    setGift,
+    setGiftDetail,
+    addGiftDetail,
+    //file
+    upload
 }

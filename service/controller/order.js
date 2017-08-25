@@ -1,6 +1,8 @@
 var $sql = require('../db/sqlMap');
 var user = require('./user');
 var conn = require('../db/mysqlconn');
+var alioss = require('../utils/alioss');
+
 /**
  * 组装创建订单的数据
  *
@@ -49,6 +51,13 @@ var createOrder = (req, userdata) => {
 var getOrderByUserId = userid => {
     return conn().queryAsync($sql.order.getByUserId, [userid]).then(data => {
         if (!data) return '';
+        data.forEach(function(element) {
+            try {
+                element.main_image_url = alioss.clientOss.signatureUrl(element.main_image);
+            } catch (err) {
+                console.log(err);
+            };
+        }, this);
         return data;
     });
 };

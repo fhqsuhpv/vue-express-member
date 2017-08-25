@@ -8,8 +8,6 @@ promise.promisifyAll(require("mysql/lib/Pool").prototype);
 
 var myconn;
 
-var mysqlconn = {};
-
 var handleDisconnect = (err) => {
     myconn = mysql.createConnection(models.mysql);
     myconn.connect(function(err) {

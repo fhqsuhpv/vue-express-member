@@ -9,8 +9,10 @@
   "author": "zian",
   "license": "ISC",
   "dependencies": {
+    "ali-oss": "^4.10.0",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
+    "co": "^4.6.0",
     "cors": "^2.8.3",
     "express": "^4.15.3",
     "express-fileupload": "^0.1.4",

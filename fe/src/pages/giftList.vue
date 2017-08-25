@@ -11,7 +11,7 @@
           <li class="li-giftlist" v-for="item in list">
             <div v-on:click="gotodetial(item.id)">
               <div class="box-left">
-                <img class="p-pic" :src="item.main_image" />
+                <img class="p-pic" :src="item.main_image_url" />
               </div>
               <div class="box-right"> {{ item.name }}</div>
               <div class="box-right"> 需花费:{{ item.cost }}</div>
@@ -35,7 +35,7 @@
     },
     created() {
       getGiftList().then(res => {
-        this.list = JSON.parse(res.data.data);
+        this.list = res.data.data;
       }).catch(err => {
         console.log(err);
       });

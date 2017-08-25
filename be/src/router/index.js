@@ -68,6 +68,7 @@ const UserManager = _import('user/usermanager');
 const OrderManager = _import('order/ordermanager');
 const GiftManager = _import('gift/giftmanager');
 const Gift = _import('gift/gift');
+const GiftDetail = _import('gift/giftdetail');
 
 Vue.use(Router);
 
@@ -125,7 +126,8 @@ export const asyncRouterMap = [{
         noDropdown: true,
         children: [
             { path: '', component: GiftManager, name: '礼品管理' },
-            { path: ':id', component: Gift, name: '礼品' }
+            { path: ':id', component: Gift, name: '礼品' },
+            { path: 'detail/:id', component: GiftDetail, name: '礼品详情' }
         ]
     },
     {

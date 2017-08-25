@@ -10,6 +10,8 @@ var codes = {
 
     ROLLBACK: 252,
     LACKOFBALANCE: 301,
-    RESNULL_ERR: 10001
+    RESNULL_ERR: 10001,
+
+    NOTFIND: 404
 }
 module.exports = codes;

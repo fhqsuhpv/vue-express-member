@@ -11,7 +11,7 @@
       <ul>
         <li class="li-giftlist">
           <div class="box-left">
-            <img class="p-pic" :src="main_image" />
+            <img class="p-pic" :src="main_image_url" />
           </div>
           <div class="box-right">换购{{ giftname }}花费{{ cost }}积分</div>
         </li>
@@ -42,15 +42,17 @@
         recipient_phone: '',
         address: '',
         actions: [],
-        sheetVisible: false
+        sheetVisible: false,
+        main_image_url: ''
       }
     },
     created() {
       getGift(this.giftId).then(res => {
-        var data = JSON.parse(res.data.data);
+        var data = res.data.data;
         this.main_image = data.main_image;
         this.cost = data.cost;
         this.giftname = data.name;
+        this.main_image_url = data.main_image_url;
       }).catch(err => {
         this.$router.push({ path: '/giftlist' });
         Toast('找不到礼品了!联系卖家试试!');

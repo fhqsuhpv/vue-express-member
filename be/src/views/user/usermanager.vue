@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-button type="primary" class="filter-item" icon="edit" style="margin: 10px 10px 10px 10px;float:right " @click="createUser">创建新用户</el-button>
+        <el-button type="primary" icon="edit" style="margin: 10px 10px 10px 10px;float:right " @click="createUser">创建新用户</el-button>
         <el-table :data="userData" class="userTable" border fit highlight-current-row>
             <el-table-column type="index"></el-table-column>
             <el-table-column label="用户名">

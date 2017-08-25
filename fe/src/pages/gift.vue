@@ -7,7 +7,7 @@
     </mt-header>
     <div class="gift-main">
       <div class="gift-cost">
-        <img class="page-lazyload-image" :src="main_image" />
+        <img class="page-lazyload-image" :src="main_image_url" />
         <a>换购 {{ giftname }}</a>
         <h3>需花费积分:{{ cost }} </h3>
         <a>还有:{{current_count}}件</a>
@@ -16,7 +16,7 @@
 
       <ul>
         <li class="page-lazyload-listitem" v-for="item in listImg">
-          <img class="page-lazyload-image" :src="item.image_path" />
+          <img class="page-lazyload-image" :src="item.image_url" />
         </li>
       </ul>
       <mt-tabbar>
@@ -41,22 +41,26 @@
         listImg: [],
         cost: 100,
         current_count: 0,
-        giftname: ''
+        giftname: '',
+        main_image_url: ''
       }
     },
     created() {
       getGift(this.giftId).then(res => {
-        var data = JSON.parse(res.data.data);
+        var data = res.data.data;
         this.main_image = data.main_image;
         this.cost = data.cost;
         this.giftname = data.name;
         this.current_count = data.current_count;
+        this.main_image_url = data.main_image_url;
       }).catch(err => {
+        console.log(err);
         this.$router.push({ path: '/giftlist' });
       });
       getGiftDetail(this.giftId).then(res => {
-        this.listImg = JSON.parse(res.data.data);
+        this.listImg = res.data.data;
       }).catch(err => {
+        console.log(err);
         this.$router.push({ path: '/giftlist' });
       });
     },

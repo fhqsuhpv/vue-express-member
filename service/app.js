@@ -4,6 +4,7 @@ const integralApi = require('./api/integral');
 const giftApi = require('./api/gift');
 const orderApi = require('./api/order');
 
+
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -11,6 +12,7 @@ const fileUpload = require('express-fileupload');
 const express = require('express');
 const app = express();
 
+app.use(express.static('storage'));
 app.use(fileUpload());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

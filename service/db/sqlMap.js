@@ -18,9 +18,13 @@ var sqlMap = {
         createIntegral: 'insert into integral(user_id,cost,record,create_date) values(?,?,?,now())'
     },
     gift: {
-        getById: 'select id,name,main_image,total_count,cost,current_count from gift where id = ?',
-        getAll: 'select id,name,main_image,total_count,cost,current_count from gift',
-        getDetail: 'select image_path,priority from gift_detail where gift_id = ? order by priority desc'
+        getById: 'select id,name,main_image,total_count,cost,current_count,is_visible from gift where id = ?',
+        getAll: 'select id,name,main_image,total_count,cost,current_count,is_visible from gift where is_visible = 1',
+        createGift: 'insert into gift (name,main_image,cost,total_count,current_count,create_date,update_date) values(?,?,?,?,?,now(),now())',
+        getDetail: 'select id,image_path,priority,is_visible from gift_detail where gift_id = ? and is_visible = 1 order by priority desc',
+        setDetail: 'update gift_detail set image_path=?,priority=?,is_visible=? where id = ?',
+        createDetail: 'insert into gift_detail (gift_id,image_path,priority,create_date) values(?,?,?,now())',
+        setGift: 'update gift set name = ?, main_image = ?,cost = ?, total_count = ?,current_count = ?,is_visible = ? where id = ?'
     },
     order: {
         createOrder: 'insert into orders (user_id,gift_id,recipient,recipient_phone,address,order_date,state,is_del) values(?,?,?,?,?,now(),\'0\',0)',

@@ -3,10 +3,10 @@ var gift = require('../controller/gift');
 var $codes = require('../utils/customcode');
 var auth = require('../controller/user');
 var jsonWrite = require('../utils/jsonwrite');
+var alioss = require('../utils/alioss');
 
 
 var express = require('express'),
-    fs = require('fs'),
     cors = require('cors');
 
 var router = express.Router();
@@ -19,11 +19,12 @@ router.get('/list', (req, res) => {
     gift.getAll().then(data => {
         return jsonWrite(res, {
             code: $codes.VERIFYSUCCE,
-            data: JSON.stringify(data)
+            data: data
         })
     }).catch(err => {
         return jsonWrite(res, {
             code: $codes.CREATEFAILS,
+            data: err
         });
     });
 });
@@ -34,12 +35,32 @@ router.get('/:id', (req, res) => {
     gift.getGift(giftDetailId).then(data => {
         return jsonWrite(res, {
             code: $codes.VERIFYSUCCE,
-            data: JSON.stringify(data[0])
+            data: data
         });
     }).catch(err => {
         return jsonWrite(res, {
             code: $codes.VERIFYFAILS,
         });
+    });
+});
+
+router.post('', (req, res) => {
+    gift.createGift(req).then(data => {
+        jsonWrite(res, {
+            code: $codes.CREATESUCCE
+        });
+    }).catch(err => {
+        jsonWrite(res, {
+            code: $codes.CREATEFAILS
+        });
+    });
+})
+
+router.put('', (req, res) => {
+    gift.setGift(req).then(data => {
+        jsonWrite(res, {
+            code: data == null ? $codes.UPDAREFAILS : $codes.UPDARESUCCE
+        })
     });
 });
 
@@ -49,7 +70,7 @@ router.get('/detail/:id', (req, res) => {
     gift.getGiftDetail(giftDetailId).then(data => {
         return jsonWrite(res, {
             code: $codes.VERIFYSUCCE,
-            data: JSON.stringify(data)
+            data: data
         });
     }).catch(err => {
         return jsonWrite(res, {
@@ -58,18 +79,48 @@ router.get('/detail/:id', (req, res) => {
     });
 });
 
-router.post('/upload', (req, res) => {
-    if (!req.files)
-        return res.status(400).send('No files were uploaded.');
-
-    let sampleFile = req.files.giftimage;
-    sampleFile.mv('./storage/images/filename.jpg', function(err) {
-        if (err) {
-            console.log(err);
-            return res.status(500).send(err);
+router.put('/detail', (req, res) => {
+    gift.setGiftDetail(req).then(data => {
+        if (data != null) {
+            jsonWrite(res, {
+                code: $codes.CREATESUCCE,
+                data: data
+            });
+        } else {
+            jsonWrite(res, {
+                code: $codes.CREATEFAILS
+            });
         }
+    });
+});
 
-        res.send('File uploaded!');
+router.post('/detail', (req, res) => {
+    gift.addGiftDetail(req).then(data => {
+        if (data != null) {
+            jsonWrite(res, {
+                code: $codes.CREATESUCCE,
+                data: data
+            });
+        } else {
+            jsonWrite(res, {
+                code: $codes.CREATEFAILS
+            });
+        }
+    });
+});
+
+router.post('/upload', (req, res) => {
+    alioss.uploadfile(req).then(data => {
+        if (data != null) {
+            jsonWrite(res, {
+                code: $codes.CREATESUCCE,
+                data: data
+            });
+        } else {
+            jsonWrite(res, {
+                code: $codes.CREATEFAILS
+            });
+        }
     });
 });
 
