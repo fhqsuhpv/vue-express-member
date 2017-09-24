@@ -9,7 +9,7 @@
       <ul v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
         <div>
           <li class="li-giftlist" v-for="item in list">
-            <div v-on:click="gotodetial(item.id)">
+            <div v-if="item.is_visible" v-on:click="gotodetial(item.id)">
               <div class="box-left">
                 <img class="p-pic" :src="item.main_image_url" />
               </div>

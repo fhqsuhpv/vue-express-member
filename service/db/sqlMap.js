@@ -19,7 +19,7 @@ var sqlMap = {
     },
     gift: {
         getById: 'select id,name,main_image,total_count,cost,current_count,is_visible from gift where id = ?',
-        getAll: 'select id,name,main_image,total_count,cost,current_count,is_visible from gift where is_visible = 1',
+        getAll: 'select id,name,main_image,total_count,cost,current_count,is_visible from gift',
         createGift: 'insert into gift (name,main_image,cost,total_count,current_count,create_date,update_date) values(?,?,?,?,?,now(),now())',
         getDetail: 'select id,image_path,priority,is_visible from gift_detail where gift_id = ? and is_visible = 1 order by priority desc',
         setDetail: 'update gift_detail set image_path=?,priority=?,is_visible=? where id = ?',
