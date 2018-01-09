@@ -1,6 +1,8 @@
 # meber-view
 
-> A Vue.js project
+> fe is  A Vue.js project
+> be is  A Vue.js project 
+> service A nodej.js express 
 
 ## Build Setup
 
