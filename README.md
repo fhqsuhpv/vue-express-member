@@ -1,12 +1,39 @@
 # meber-view
 
-> fe is  A Vue.js project
-> be is  A Vue.js project 
-> service A nodej.js express 
+* fe is  A Vue.js project
+* be is  A Vue.js project 
+* service A nodej.js express 
 
-## Build Setup
+## Build 前端
 
 ``` bash
+cd fe
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+```
+## Build 运维端
+
+``` bash
+cd be
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+```
+## Build 后端
+
+``` bash
+cd server
 # install dependencies
 npm install
 
@@ -16,8 +43,8 @@ npm run dev
 # build for production with minification
 npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
+# run
+node app.js
 ```
 
 # 布署生产环境的守护自启动
