@@ -2,7 +2,8 @@
 
 * fe is  A Vue.js project
 * be is  A Vue.js project 
-* service A nodej.js express 
+* service A node.js express 
+这个项目是一个H5积分换购的小商城，前端使用了vue后端用了nodejs。
 
 ## Build 前端
 
